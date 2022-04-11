@@ -27,8 +27,8 @@ app.use(express.urlencoded({ extended: true, limit: '1 mb' }));
 app.use('/uploads', express.static(env.uploadDir));
 
 const router = express.Router();
-router.use('/api', require('./routes/user'));
-router.use('/api', require('./routes/upload'));
+router.use('/api', require('./routes/posts'));
+router.use('/api', require('./routes/uploads'));
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isProduction = process.env.NODE_ENV === 'production' || process.env.ABT_NODE_SERVICE_ENV === 'production';

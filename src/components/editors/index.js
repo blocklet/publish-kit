@@ -19,6 +19,7 @@ import GalleryEditor from './gallery';
 import PostPermission from './permission';
 
 import { usePostContext } from '../../contexts/post';
+import { useSessionContext } from '../../contexts/session';
 
 import api from '../../libs/api';
 
@@ -35,6 +36,7 @@ export default function Editor() {
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
   const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
   const { prependPost } = usePostContext();
+  const { session } = useSessionContext();
 
   const createTypeHandler = (t) => () => {
     if (t !== type) {
@@ -47,6 +49,11 @@ export default function Editor() {
   const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
   const handlePublish = async () => {
+    if (!session.user) {
+      session.login();
+      return;
+    }
+
     setLoading(true);
     try {
       const { data } = await api.post('/api/posts', { type, permission, body });
@@ -128,7 +135,7 @@ export default function Editor() {
             onClick={handlePublish}
             disabled={loading || canPublish === false}>
             {loading ? <Spinner size="small" /> : null}
-            Publish
+            {session.user ? 'Publish' : 'Connect'}
           </Button>
         </div>
       </div>

@@ -71,7 +71,7 @@ export default function Editor() {
 }
 
 const Div = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 
   .editor-control {
     padding: 8px 0;

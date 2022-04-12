@@ -16,7 +16,14 @@ export default function StatusCard({ post }) {
   return (
     <Div>
       <div className="status-header">
-        <DidAvatar variant="circle" className="avatar" did={did} src={avatar} size={40} shape="circle" />
+        <DidAvatar
+          variant="circle"
+          className="avatar"
+          did={did || post.createdBy}
+          src={avatar}
+          size={40}
+          shape="circle"
+        />
         <div className="status-header-info">
           <span>{name}</span>
           <span>· {format(post.createdAt)}</span>

@@ -3,21 +3,28 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
 
+import IconLock from '@material-ui/icons/LockOutlined';
 import DidAvatar from '@arcblock/did-connect/lib/Avatar';
 
 import { useSessionContext } from '../../../contexts/session';
 
 export default function StatusCard({ post }) {
   const { session } = useSessionContext();
-  const avatar = session && session.user && session.user.did === post.createdBy ? session.user.avatar : null;
-  const name = session && session.user && session.user.did === post.createdBy ? session.user.fullName : 'Anonymous';
+  const did = session && session.user && session.user.did ? session.user.did : '';
+  const avatar = did === post.createdBy ? session.user.avatar : null;
+  const name = did === post.createdBy ? session.user.fullName : 'Anonymous';
   return (
     <Div>
       <div className="status-header">
-        <DidAvatar variant="circle" className="avatar" did={session.user.did} src={avatar} size={40} shape="circle" />
+        <DidAvatar variant="circle" className="avatar" did={did} src={avatar} size={40} shape="circle" />
         <div className="status-header-info">
-          {name} <span>@{session.user.role}</span>
+          <span>{name}</span>
           <span>· {format(post.createdAt)}</span>
+          {post.permission === 'private' && (
+            <span title="Private">
+              · <IconLock style={{ fontSize: 14 }} />
+            </span>
+          )}
           <p>{post.body.content}</p>
         </div>
       </div>
@@ -132,12 +139,12 @@ const Div = styled.div`
   .status-header-info span {
     color: #657786;
     font-weight: normal;
-    margin-left: 5px;
+    margin-left: 8px;
   }
   .status-header-info p {
     font-size: 1rem;
     font-weight: normal;
-    margin-top: 5px;
+    margin-top: 8px;
   }
 
   .status-img-wrap {
@@ -147,7 +154,7 @@ const Div = styled.div`
   .status-info-counts {
     display: flex;
     margin-left: 60px;
-    margin-top: 10px;
+    margin-top: 8px;
     display: none;
   }
   .status-info-counts div {

@@ -171,7 +171,6 @@ const Div = styled.div`
       padding-right: 20px;
     }
     .status-header {
-      flex-direction: column;
     }
     .status-header img {
       margin-bottom: 20px;

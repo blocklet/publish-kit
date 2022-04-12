@@ -14,9 +14,11 @@ import Button from '@arcblock/ux/lib/Button';
 import StatusEditor from './status';
 import BlogEditor from './blog';
 import GalleryEditor from './gallery';
+import PostPermission from './permission';
 
 export default function Editor() {
   const [type, setType] = useState('status');
+  const [permission, setPermission] = useState('public');
   const [body, setBody] = useState({});
 
   const createTypeHandler = (t) => () => {
@@ -26,16 +28,16 @@ export default function Editor() {
   const isDisabled = (t) => type === t;
 
   const handlePublish = () => {};
-  const handleChange = (key, value) => {
+  const handleEditorChange = (key, value) => {
     setBody({ ...body, [key]: value });
   };
 
-  console.log(body);
+  console.log({ body, permission });
 
   const editors = {
-    status: <StatusEditor onChange={handleChange} />,
-    blog: <BlogEditor onChange={handleChange} />,
-    gallery: <GalleryEditor onChange={handleChange} />,
+    status: <StatusEditor onChange={handleEditorChange} />,
+    blog: <BlogEditor onChange={handleEditorChange} />,
+    gallery: <GalleryEditor onChange={handleEditorChange} />,
   };
 
   return (
@@ -79,9 +81,12 @@ export default function Editor() {
             </IconButton>
           </Tooltip>
         </div>
-        <Button color="primary" variant="contained" size="small" onClick={handlePublish}>
-          Publish
-        </Button>
+        <div className="publish-control">
+          <PostPermission onChange={setPermission} initialValue={permission} />
+          <Button color="primary" variant="contained" size="small" onClick={handlePublish}>
+            Publish
+          </Button>
+        </div>
       </div>
     </Div>
   );
@@ -109,6 +114,12 @@ const Div = styled.div`
       .editor-icon {
         color: #999;
       }
+    }
+
+    .publish-control {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 `;

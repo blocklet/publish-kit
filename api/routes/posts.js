@@ -54,6 +54,7 @@ const schema = Joi.object({
   updatedBy: Joi.string().required(),
 }).options({ stripUnknown: true });
 
+// create post
 router.post('/posts', user, auth, async (req, res) => {
   const { type, status = Post.STATUS.PUBLISHED, permission, body } = req.body;
   const { did, fullName } = req.user;
@@ -81,11 +82,50 @@ router.post('/posts', user, auth, async (req, res) => {
   return res.jsonp(doc);
 });
 
+// update post
+router.put('/posts/:postId', user, auth, async (req, res) => {
+  const updates = req.body;
+  const doc = await Post.findOne({ _id: req.params.postId });
+  if (!doc) {
+    return res.status(404).json({ error: 'post not found' });
+  }
+
+  const { error } = schema.validate({ ...doc, ...updates });
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  logger.info('update post', { postId: req.params.postId, updates });
+
+  const updated = await Post.update(
+    { _id: req.params.postId },
+    { $set: { ...updates, updatedAt: new Date().toISOString(), updatedBy: req.user.did } }
+  );
+  return res.jsonp(updated);
+});
+
+// delete post
+router.delete('/posts/:postId', user, auth, async (req, res) => {
+  const doc = await Post.findOne({ _id: req.params.postId });
+  if (!doc) {
+    return res.status(404).json({ error: 'post not found' });
+  }
+
+  const updated = await Post.update(
+    { _id: req.params.postId },
+    { $set: { updatedAt: new Date().toISOString(), updatedBy: req.user.did, status: Post.STATUS.DELETED } }
+  );
+  logger.info('update post', { postId: req.params.postId });
+  return res.jsonp(updated);
+});
+
+// get detail
 router.get('/posts/:postId', async (req, res) => {
   const doc = await Post.findOne({ _id: req.params.postId });
   return res.jsonp(doc);
 });
 
+// get list
 const MAX_PAGE_SIZE = 100;
 const DEFAULT_PAGE_SIZE = 20;
 router.get('/posts', user, async (req, res) => {

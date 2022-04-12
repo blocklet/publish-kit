@@ -36,6 +36,7 @@ class Post extends Database {
   STATUS = {
     DRAFT: 'draft',
     PUBLISHED: 'published',
+    DELETED: 'deleted',
   };
 
   TYPE = {

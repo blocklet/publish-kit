@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
@@ -18,6 +16,8 @@ import BlogEditor from './blog';
 import GalleryEditor from './gallery';
 import PostPermission from './permission';
 
+import { usePostContext } from '../../contexts/post';
+
 import api from '../../libs/api';
 
 const Editors = {
@@ -26,11 +26,12 @@ const Editors = {
   gallery: GalleryEditor,
 };
 
-export default function Editor({ onPublished }) {
+export default function Editor() {
   const [loading, setLoading] = useState(false);
   const [type, setType] = useLocalStorage('post-type', 'status');
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
   const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
+  const { prependPost } = usePostContext();
 
   const createTypeHandler = (t) => () => {
     if (t !== type) {
@@ -47,7 +48,7 @@ export default function Editor({ onPublished }) {
     try {
       const { data } = await api.post('/api/posts', { type, permission, body });
       setBody({});
-      onPublished(data);
+      prependPost(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -58,8 +59,6 @@ export default function Editor({ onPublished }) {
   const handleEditorChange = (key, value) => {
     setBody({ ...body, [key]: value });
   };
-
-  console.log({ body, permission });
 
   const EditorComponent = Editors[type];
   const canPublish = Editors[type].canPublish(body);
@@ -132,13 +131,9 @@ export default function Editor({ onPublished }) {
   );
 }
 
-Editor.propTypes = {
-  onPublished: PropTypes.func,
-};
+Editor.propTypes = {};
 
-Editor.defaultProps = {
-  onPublished: () => {},
-};
+Editor.defaultProps = {};
 
 const Div = styled.div`
   margin-bottom: 12px;

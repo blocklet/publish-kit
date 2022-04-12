@@ -76,8 +76,40 @@ router.post('/posts', user, auth, async (req, res) => {
   return res.jsonp(doc);
 });
 
-router.post('/posts/:postId', async (req, res) => {
-  // TODO: return post detail
+router.get('/posts/:postId', async (req, res) => {
+  const doc = await Post.findOne({ _id: req.params.postId });
+  return res.jsonp(doc);
+});
+
+const MAX_PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 20;
+router.get('/posts', user, async (req, res) => {
+  let page = Number(req.query.page || 1);
+  let pageSize = Number(req.query.pageSize || DEFAULT_PAGE_SIZE);
+
+  page = Number.isNaN(page) ? 1 : page;
+  pageSize = Number.isNaN(pageSize) ? DEFAULT_PAGE_SIZE : pageSize;
+  pageSize = pageSize > MAX_PAGE_SIZE ? MAX_PAGE_SIZE : pageSize;
+
+  const conditions = {};
+  conditions.status = Post.STATUS.PUBLISHED;
+  if (req.query.status) {
+    conditions.status = req.query.status;
+  }
+  if (req.query.type) {
+    conditions.type = req.query.type;
+  }
+  if (req.query.createdBy) {
+    conditions.createdBy = req.query.createdBy;
+  }
+  if (!req.user) {
+    conditions.permission = Post.PERMISSIONS.PUBLIC;
+  }
+
+  const posts = await Post.find(conditions).sort({ updatedAt: -1 }).paginate(page, pageSize);
+  const total = await Post.count(conditions);
+
+  res.jsonp({ posts, total, page, pageSize, pageCount: Math.ceil(total / pageSize) });
 });
 
 module.exports = router;

@@ -2,17 +2,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useSessionContext } from '../contexts/session';
 import Editor from '../components/editors';
 import Feeds from '../components/feeds';
 
-const Home = () => {
-  const { session } = useSessionContext();
+import { PostProvider } from '../contexts/post';
 
+const Home = () => {
   return (
     <Div>
-      <Editor disabled={!session} />
-      <Feeds />
+      <PostProvider>
+        <Editor />
+        <Feeds />
+      </PostProvider>
     </Div>
   );
 };

@@ -62,7 +62,7 @@ export default function Editor() {
             <IconPoll className="editor-icon editor-icon-poll" />
           </IconButton>
         </div>
-        <Button color="primary" variant="contained" onClick={handlePublish}>
+        <Button color="primary" variant="contained" size="small" onClick={handlePublish}>
           Publish
         </Button>
       </div>
@@ -85,7 +85,7 @@ const Div = styled.div`
     }
 
     .editor-icon {
-      color: #1d9bf0;
+      color: ${(props) => props.theme.palette.primary.main};
     }
 
     .Mui-disabled {

@@ -1,11 +1,12 @@
 /* eslint-disable import/no-cycle */
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Center from '@arcblock/ux/lib/Center';
 import Spinner from '@arcblock/ux/lib/Spinner';
 import useAsync from 'react-use/lib/useAsync';
 
 import api from '../libs/api';
+import { useSessionContext } from './session';
 
 const PostContext = createContext({});
 const { Provider, Consumer } = PostContext;
@@ -15,13 +16,14 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
+  const { session } = useSessionContext();
 
-  const state = useAsync(async () => {
-    const { data } = await api.get(`/api/posts?page=${page}&pageSize=${pageSize}&type=${type}`);
+  const loadInitialPosts = async () => {
+    const { data } = await api.get(`/api/posts?page=1&pageSize=${pageSize}&type=${type}`);
     setPosts(data.posts);
     setHasMore(data.pageCount > 1);
     return data;
-  }, []);
+  };
 
   const loadMorePosts = () => {
     console.log('load more'); // eslint-disable-line
@@ -42,6 +44,9 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
       setPosts([post, ...posts]);
     }
   };
+
+  const state = useAsync(loadInitialPosts, []);
+  useEffect(() => loadInitialPosts, [session.user]);
 
   if (state.loading) {
     return (

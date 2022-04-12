@@ -11,19 +11,11 @@ import { useSessionContext } from '../../../contexts/session';
 export default function StatusCard({ post }) {
   const { session } = useSessionContext();
   const did = session && session.user && session.user.did ? session.user.did : '';
-  const avatar = did === post.createdBy ? session.user.avatar : null;
-  const name = did === post.createdBy ? session.user.fullName : 'Anonymous';
+  const name = did === post.createdBy ? session.user.fullName : post.author;
   return (
     <Div>
       <div className="status-header">
-        <DidAvatar
-          variant="circle"
-          className="avatar"
-          did={did || post.createdBy}
-          src={avatar}
-          size={40}
-          shape="circle"
-        />
+        <DidAvatar variant="circle" className="avatar" did={post.createdBy} size={40} shape="circle" />
         <div className="status-header-info">
           <span>{name}</span>
           <span>· {format(post.createdAt)}</span>
@@ -146,7 +138,7 @@ const Div = styled.div`
   .status-header-info span {
     color: #657786;
     font-weight: normal;
-    margin-left: 8px;
+    margin-right: 8px;
   }
   .status-header-info p {
     font-size: 1rem;

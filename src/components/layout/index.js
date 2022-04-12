@@ -8,7 +8,6 @@ import { useSessionContext } from '../../contexts/session';
 
 export default function Layout({ children }) {
   const { session } = useSessionContext();
-  const onLogout = () => window.location.reload();
 
   const links = [
     {
@@ -22,7 +21,7 @@ export default function Layout({ children }) {
     <BaseLayout
       title="Home"
       brand={window.blocklet.appName}
-      addons={<SessionManager session={session} onLogout={onLogout} size={24} />}
+      addons={<SessionManager session={session} size={24} />}
       links={session.user ? links : []}
       variant="border"
       logo={<img src={window.blocklet.appLogo} alt="logo" style={{ width: 36, height: 36 }} />}

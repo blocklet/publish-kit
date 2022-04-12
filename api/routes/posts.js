@@ -3,6 +3,7 @@ const express = require('express');
 const middleware = require('@blocklet/sdk/lib/middlewares');
 
 // const env = require('../libs/env');
+const logger = require('../libs/logger');
 const Post = require('../states/post');
 
 const router = express.Router();
@@ -20,6 +21,8 @@ const schema = Joi.object({
     .valid(...Object.values(Post.STATUS))
     .required(),
   tags: Joi.array().items(Joi.string()).default([]),
+  author: Joi.string().required(),
+
   body: Joi.alternatives().conditional('type', [
     {
       is: Post.TYPE.STATUS,
@@ -71,6 +74,8 @@ router.post('/posts', user, auth, async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.message });
   }
+
+  logger.info('create post', { post, value, error });
 
   const doc = await Post.insert(value);
   return res.jsonp(doc);

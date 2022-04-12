@@ -10,7 +10,7 @@ import Menu from '@material-ui/core/Menu';
 
 const options = [
   { value: 'public', label: 'Visible to everyone' },
-  { value: 'private', label: 'Visible to only myself' },
+  { value: 'private', label: 'Visible to myself' },
   { value: 'paid', label: 'Visible to paid users' },
 ];
 

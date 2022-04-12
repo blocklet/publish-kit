@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
-export default function BlogEditor({ onChange }) {
-  const [value, setValue] = useState("**What's happening?**");
+export default function BlogEditor({ onChange, body }) {
+  const [value, setValue] = useState(body.content || "**What's happening?**");
 
   useEffect(() => {
     onChange('content', value);
@@ -12,13 +12,14 @@ export default function BlogEditor({ onChange }) {
 
   return (
     <Div>
-      <MDEditor value={value} onChange={setValue} preview="edit" />
+      <MDEditor value={value} onChange={setValue} preview="edit" textareaProps={{}} />
     </Div>
   );
 }
 
 BlogEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
+  body: PropTypes.object.isRequired,
 };
 
 const Div = styled.div`

@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
 
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -17,15 +18,19 @@ import GalleryEditor from './gallery';
 import PostPermission from './permission';
 
 export default function Editor() {
-  const [type, setType] = useState('status');
-  const [permission, setPermission] = useState('public');
-  const [body, setBody] = useState({});
+  const [type, setType] = useLocalStorage('post-type', 'status');
+  const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
+  const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
 
   const createTypeHandler = (t) => () => {
-    setType(t);
+    if (t !== type) {
+      setType(t);
+      setBody({});
+    }
   };
 
-  const isDisabled = (t) => type === t;
+  const getBtnDisabled = (t) => type === t;
+  const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
   const handlePublish = () => {};
   const handleEditorChange = (key, value) => {
@@ -35,9 +40,9 @@ export default function Editor() {
   console.log({ body, permission });
 
   const editors = {
-    status: <StatusEditor onChange={handleEditorChange} />,
-    blog: <BlogEditor onChange={handleEditorChange} />,
-    gallery: <GalleryEditor onChange={handleEditorChange} />,
+    status: <StatusEditor body={body} onChange={handleEditorChange} />,
+    blog: <BlogEditor body={body} onChange={handleEditorChange} />,
+    gallery: <GalleryEditor body={body} onChange={handleEditorChange} />,
   };
 
   return (
@@ -48,9 +53,9 @@ export default function Editor() {
           <Tooltip title="Post a status">
             <IconButton
               onClick={createTypeHandler('status')}
-              className="editor-button"
+              className={getBtnClass('status')}
               size="small"
-              disabled={isDisabled('status')}
+              disabled={getBtnDisabled('status')}
               disableRipple>
               <IconStatus className="editor-icon editor-icon-status" />
             </IconButton>
@@ -58,9 +63,9 @@ export default function Editor() {
           <Tooltip title="Post a blog">
             <IconButton
               onClick={createTypeHandler('blog')}
-              className="editor-button"
+              className={getBtnClass('blog')}
               size="small"
-              disabled={isDisabled('blog')}
+              disabled={getBtnDisabled('blog')}
               disableRipple>
               <IconPost className="editor-icon editor-icon-blog" />
             </IconButton>
@@ -68,15 +73,15 @@ export default function Editor() {
           <Tooltip title="Post image and photos">
             <IconButton
               onClick={createTypeHandler('gallery')}
-              className="editor-button"
+              className={getBtnClass('gallery')}
               size="small"
-              disabled={isDisabled('gallery')}
+              disabled={getBtnDisabled('gallery')}
               disableRipple>
               <IconGallery className="editor-icon editor-icon-gallery" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Coming soon">
-            <IconButton className="editor-button" size="small" disabled disableRipple>
+            <IconButton className={getBtnClass('poll')} size="small" disabled disableRipple>
               <IconPoll className="editor-icon editor-icon-poll" />
             </IconButton>
           </Tooltip>
@@ -104,15 +109,14 @@ const Div = styled.div`
 
     .editor-button {
       margin-right: 8px;
-    }
-
-    .editor-icon {
-      color: ${(props) => props.theme.palette.primary.main};
-    }
-
-    .Mui-disabled {
       .editor-icon {
         color: #999;
+      }
+    }
+
+    .editor-button-active {
+      .editor-icon {
+        color: ${(props) => props.theme.palette.primary.main};
       }
     }
 

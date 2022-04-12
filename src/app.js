@@ -6,13 +6,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import theme from './libs/theme';
 import { SessionProvider } from './contexts/session';
+import Layout from './components/layout';
 
 import Home from './pages/home';
-import About from './pages/about';
+import BlogDetail from './pages/about';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    min-height: 100%;
     padding: 0;
     margin: 0;
   }
@@ -32,14 +32,14 @@ function App() {
         <SessionProvider serviceHost={get(window, 'blocklet.prefix', '/')}>
           <CssBaseline />
           <GlobalStyle />
-          <div className="app">
+          <Layout>
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-          </div>
+          </Layout>
         </SessionProvider>
       </ThemeProvider>
     </MuiThemeProvider>

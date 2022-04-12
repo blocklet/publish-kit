@@ -133,7 +133,7 @@ export default function Editor() {
             variant="contained"
             size="small"
             onClick={handlePublish}
-            disabled={loading || canPublish === false}>
+            disabled={session.user && (loading || canPublish === false)}>
             {loading ? <Spinner size="small" /> : null}
             {session.user ? 'Publish' : 'Connect'}
           </Button>

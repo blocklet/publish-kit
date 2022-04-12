@@ -8,4 +8,6 @@ export default function GalleryEditor() {
   return <Div>Gallery Editor goes here</Div>;
 }
 
+GalleryEditor.canPublish = (body) => !!body.content;
+
 const Div = styled.div``;

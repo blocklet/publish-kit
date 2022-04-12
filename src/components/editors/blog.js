@@ -22,6 +22,8 @@ BlogEditor.propTypes = {
   body: PropTypes.object.isRequired,
 };
 
+BlogEditor.canPublish = (body) => !!body.content;
+
 const Div = styled.div`
   .w-md-editor-toolbar {
     border-color: #eff3f4 !important;

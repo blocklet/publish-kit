@@ -20,6 +20,8 @@ StatusEditor.propTypes = {
   body: PropTypes.object.isRequired,
 };
 
+StatusEditor.canPublish = (body) => !!body.content;
+
 const Div = styled.div`
   position: relative;
 

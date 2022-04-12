@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import React from 'react';
-// import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
@@ -11,13 +11,23 @@ import IconPost from '@material-ui/icons/SubjectOutlined';
 import IconGallery from '@material-ui/icons/InsertPhotoOutlined';
 import IconPoll from '@material-ui/icons/PollOutlined';
 import Button from '@arcblock/ux/lib/Button';
+import Spinner from '@arcblock/ux/lib/Spinner';
 
 import StatusEditor from './status';
 import BlogEditor from './blog';
 import GalleryEditor from './gallery';
 import PostPermission from './permission';
 
-export default function Editor() {
+import api from '../../libs/api';
+
+const Editors = {
+  status: StatusEditor,
+  blog: BlogEditor,
+  gallery: GalleryEditor,
+};
+
+export default function Editor({ onPublished }) {
+  const [loading, setLoading] = useState(false);
   const [type, setType] = useLocalStorage('post-type', 'status');
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
   const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
@@ -32,63 +42,88 @@ export default function Editor() {
   const getBtnDisabled = (t) => type === t;
   const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
-  const handlePublish = () => {};
+  const handlePublish = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.post('/api/posts', { type, permission, body });
+      setBody({});
+      onPublished(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleEditorChange = (key, value) => {
     setBody({ ...body, [key]: value });
   };
 
   console.log({ body, permission });
 
-  const editors = {
-    status: <StatusEditor body={body} onChange={handleEditorChange} />,
-    blog: <BlogEditor body={body} onChange={handleEditorChange} />,
-    gallery: <GalleryEditor body={body} onChange={handleEditorChange} />,
-  };
+  const EditorComponent = Editors[type];
+  const canPublish = Editors[type].canPublish(body);
 
   return (
     <Div>
-      <div className="editor-wrapper">{editors[type]}</div>
+      <div className="editor-wrapper">
+        <EditorComponent body={body} onChange={handleEditorChange} />
+      </div>
       <div className="editor-control">
         <div className="editor-icons">
           <Tooltip title="Post a status">
-            <IconButton
-              onClick={createTypeHandler('status')}
-              className={getBtnClass('status')}
-              size="small"
-              disabled={getBtnDisabled('status')}
-              disableRipple>
-              <IconStatus className="editor-icon editor-icon-status" />
-            </IconButton>
+            <span>
+              <IconButton
+                onClick={createTypeHandler('status')}
+                className={getBtnClass('status')}
+                size="small"
+                disabled={getBtnDisabled('status')}
+                disableRipple>
+                <IconStatus className="editor-icon editor-icon-status" />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title="Post a blog">
-            <IconButton
-              onClick={createTypeHandler('blog')}
-              className={getBtnClass('blog')}
-              size="small"
-              disabled={getBtnDisabled('blog')}
-              disableRipple>
-              <IconPost className="editor-icon editor-icon-blog" />
-            </IconButton>
+            <span>
+              <IconButton
+                onClick={createTypeHandler('blog')}
+                className={getBtnClass('blog')}
+                size="small"
+                disabled={getBtnDisabled('blog')}
+                disableRipple>
+                <IconPost className="editor-icon editor-icon-blog" />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title="Post image and photos">
-            <IconButton
-              onClick={createTypeHandler('gallery')}
-              className={getBtnClass('gallery')}
-              size="small"
-              disabled={getBtnDisabled('gallery')}
-              disableRipple>
-              <IconGallery className="editor-icon editor-icon-gallery" />
-            </IconButton>
+            <span>
+              <IconButton
+                onClick={createTypeHandler('gallery')}
+                className={getBtnClass('gallery')}
+                size="small"
+                disabled={getBtnDisabled('gallery')}
+                disableRipple>
+                <IconGallery className="editor-icon editor-icon-gallery" />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title="Coming soon">
-            <IconButton className={getBtnClass('poll')} size="small" disabled disableRipple>
-              <IconPoll className="editor-icon editor-icon-poll" />
-            </IconButton>
+            <span>
+              <IconButton className={getBtnClass('poll')} size="small" disabled disableRipple>
+                <IconPoll className="editor-icon editor-icon-poll" />
+              </IconButton>
+            </span>
           </Tooltip>
         </div>
         <div className="publish-control">
           <PostPermission onChange={setPermission} initialValue={permission} />
-          <Button color="primary" variant="contained" size="small" onClick={handlePublish}>
+          <Button
+            color="primary"
+            variant="contained"
+            size="small"
+            onClick={handlePublish}
+            disabled={loading || canPublish === false}>
+            {loading ? <Spinner size="small" /> : null}
             Publish
           </Button>
         </div>
@@ -96,6 +131,14 @@ export default function Editor() {
     </Div>
   );
 }
+
+Editor.propTypes = {
+  onPublished: PropTypes.func,
+};
+
+Editor.defaultProps = {
+  onPublished: () => {},
+};
 
 const Div = styled.div`
   margin-bottom: 12px;

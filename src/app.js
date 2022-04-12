@@ -9,7 +9,8 @@ import { SessionProvider } from './contexts/session';
 import Layout from './components/layout';
 
 import Home from './pages/home';
-import BlogDetail from './pages/about';
+import PostDetail from './pages/posts/detail';
+import PostHistory from './pages/posts/history';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -35,7 +36,8 @@ function App() {
           <Layout>
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route path="/blog/:id" element={<BlogDetail />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/history" element={<PostHistory />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

@@ -2,10 +2,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// import Uploader from '../components/uploader';
+import { useSessionContext } from '../contexts/session';
+import Editor from '../components/editors';
+import Feeds from '../components/feeds';
 
 const Home = () => {
-  return <Div>main</Div>;
+  const { session } = useSessionContext();
+
+  return (
+    <Div>
+      <Editor disabled={!session} />
+      <Feeds />
+    </Div>
+  );
 };
 
 const Div = styled.div``;

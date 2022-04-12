@@ -12,7 +12,7 @@ import Spinner from '@arcblock/ux/lib/Spinner';
 import Center from '@arcblock/ux/lib/Center';
 import Grid from '@material-ui/core/Grid';
 
-import api from '../libs/api';
+import api from '../../libs/api';
 
 function Gallery({ docs }) {
   return (

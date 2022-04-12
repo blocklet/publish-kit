@@ -5,15 +5,24 @@ import { format } from 'timeago.js';
 
 import DidAvatar from '@arcblock/did-connect/lib/Avatar';
 
-import { useSessionContext } from '../../../contexts/session';
 import PostPermission from '../../editors/permission';
+
+import { useSessionContext } from '../../../contexts/session';
+
+import api from '../../../libs/api';
 
 export default function StatusCard({ post }) {
   const { session } = useSessionContext();
   const did = session && session.user && session.user.did ? session.user.did : '';
   const name = did === post.createdBy ? session.user.fullName : post.author;
 
-  const onChangePermission = () => {};
+  const onChangePermission = async (permission) => {
+    if (permission === post.permission) {
+      return;
+    }
+
+    await api.put(`/api/posts/${post._id}`, { permission });
+  };
 
   return (
     <Div>

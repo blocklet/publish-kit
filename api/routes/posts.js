@@ -151,7 +151,7 @@ router.get('/posts', user, async (req, res) => {
     conditions.permission = Post.PERMISSIONS.PUBLIC;
   }
 
-  const posts = await Post.find(conditions).sort({ updatedAt: -1 }).paginate(page, pageSize);
+  const posts = await Post.find(conditions).sort({ createdAt: -1 }).paginate(page, pageSize);
   const total = await Post.count(conditions);
 
   res.jsonp({ posts, total, page, pageSize, pageCount: Math.ceil(total / pageSize) });

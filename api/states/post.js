@@ -8,8 +8,10 @@ const Database = require('@blocklet/sdk/lib/database');
  *  - type = status
  *    - content: [string], the tweet content
  *  - type = blog
- *    - title: string, the blog content
- *    - content: string, the blog content
+ *    - title: string
+ *    - content: string
+ *    - excerpt: string
+ *    - cover: string, used to concat url
  *  - type = gallery
  *    - images: array
  *      - filename: string, used to concat url
@@ -42,7 +44,7 @@ class Post extends Database {
     GALLERY: 'gallery',
     BLOG: 'blog',
     POLL: 'poll',
-  }
+  };
 
   PERMISSIONS = {
     PUBLIC: 'public',

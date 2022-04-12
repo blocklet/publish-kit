@@ -72,7 +72,8 @@
     "styled-components": "^5.3.5",
     "timeago.js": "^4.0.2",
     "uppload": "^3.2.1",
-    "url-join": "4.x"
+    "url-join": "4.x",
+    "xss": "^1.0.11"
   },
   "devDependencies": {
     "@arcblock/eslint-config": "^0.1.8",

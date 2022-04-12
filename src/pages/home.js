@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import SessionManager from '@arcblock/did-connect/lib/SessionManager';
 
 import Uploader from '../components/uploader';
-import UploadHistory from '../components/history';
 import { useSessionContext } from '../contexts/session';
 
 const Home = () => {
@@ -21,9 +20,6 @@ const Home = () => {
           <SessionManager session={session} onLogout={onLogout} />
         </div>
         <Uploader />
-      </section>
-      <section className="history">
-        <UploadHistory />
       </section>
     </Div>
   );

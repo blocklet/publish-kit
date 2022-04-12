@@ -9,9 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 const options = [
-  { value: 'public', label: 'Visible to everyone' },
-  { value: 'private', label: 'Visible to myself' },
-  { value: 'paid', label: 'Visible to paid users' },
+  { value: 'public', label: 'everyone can view this post' },
+  { value: 'private', label: 'only myself can view this post' },
+  { value: 'paid', label: 'only paid users can view this post' },
 ];
 
 export default function PostPermission({ onChange, initialValue }) {

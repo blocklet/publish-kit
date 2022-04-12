@@ -10,7 +10,7 @@ import { PostProvider } from '../contexts/post';
 const Home = () => {
   return (
     <Div>
-      <PostProvider>
+      <PostProvider pageSize={10}>
         <Editor />
         <Feeds />
       </PostProvider>

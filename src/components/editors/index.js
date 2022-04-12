@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import get from 'lodash/get';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
@@ -28,6 +30,7 @@ const Editors = {
 
 export default function Editor() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [type, setType] = useLocalStorage('post-type', 'status');
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
   const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
@@ -50,13 +53,14 @@ export default function Editor() {
       setBody({});
       prependPost(data);
     } catch (err) {
-      console.error(err);
+      setError(get(err, 'response.data.error', err.message));
     } finally {
       setLoading(false);
     }
   };
 
   const handleEditorChange = (key, value) => {
+    setError('');
     setBody({ ...body, [key]: value });
   };
 
@@ -114,6 +118,7 @@ export default function Editor() {
             </span>
           </Tooltip>
         </div>
+        {!!error && <div className="editor-error">{error}</div>}
         <div className="publish-control">
           <PostPermission onChange={setPermission} initialValue={permission} />
           <Button
@@ -163,5 +168,9 @@ const Div = styled.div`
       justify-content: space-between;
       align-items: center;
     }
+  }
+
+  .editor-error {
+    color: red;
   }
 `;

@@ -17,13 +17,14 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
   const [hasMore, setHasMore] = useState(false);
 
   const state = useAsync(async () => {
-    const { data } = await api.get(`/api/posts?page=1&pageSize=${pageSize}&type=${type}`);
+    const { data } = await api.get(`/api/posts?page=${page}&pageSize=${pageSize}&type=${type}`);
     setPosts(data.posts);
     setHasMore(data.pageCount > 1);
     return data;
   }, []);
 
-  const loadMorePost = () => {
+  const loadMorePosts = () => {
+    console.log('load more'); // eslint-disable-line
     setLoading(true);
     api
       .get(`/api/posts?page=${page + 1}&pageSize=${pageSize}&type=${type}`)
@@ -50,7 +51,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
     );
   }
 
-  return <Provider value={{ loading, posts, prependPost, loadMorePost, hasMore }}>{children}</Provider>;
+  return <Provider value={{ loading, posts, prependPost, loadMorePosts, hasMore }}>{children}</Provider>;
 }
 
 PostProvider.propTypes = {

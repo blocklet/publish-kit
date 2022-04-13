@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const xss = require('xss');
 const express = require('express');
 const middleware = require('@blocklet/sdk/lib/middlewares');
 
@@ -58,6 +59,10 @@ const schema = Joi.object({
 router.post('/posts', user, auth, async (req, res) => {
   const { type, status = Post.STATUS.PUBLISHED, permission, body } = req.body;
   const { did, fullName } = req.user;
+
+  Object.keys(body).forEach((key) => {
+    body[key] = xss(body[key]);
+  });
 
   const post = {
     type,

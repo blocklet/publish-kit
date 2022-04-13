@@ -61,7 +61,9 @@ router.post('/posts', user, auth, async (req, res) => {
   const { did, fullName } = req.user;
 
   Object.keys(body).forEach((key) => {
-    body[key] = xss(body[key]);
+    if (typeof body[key] === 'string') {
+      body[key] = xss(body[key]);
+    }
   });
 
   const post = {

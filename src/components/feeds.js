@@ -23,7 +23,7 @@ export default function Posts() {
   return (
     <Div>
       {posts.map((x) => {
-        const CardComponent = cards[posts[0].type];
+        const CardComponent = cards[x.type];
         return <CardComponent post={x} key={x._id} />;
       })}
       {hasMore && (

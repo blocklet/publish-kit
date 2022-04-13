@@ -13,8 +13,7 @@ const Database = require('@blocklet/sdk/lib/database');
  *    - excerpt: string
  *    - cover: string, used to concat url
  *  - type = gallery
- *    - images: array
- *      - filename: string, used to concat url
+ *    - images: array, the image urls
  *    - description: string, as image desc
  *
  * - author: string

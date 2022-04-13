@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
 
 export default function BlogEditor({ onChange, body }) {
+  const [height] = useLocalStorage('post-height', 250);
   const [value, setValue] = useState(body.content || "**What's happening?**");
 
   useEffect(() => {
@@ -17,6 +19,7 @@ export default function BlogEditor({ onChange, body }) {
         value={value}
         onChange={setValue}
         preview="edit"
+        height={height}
         textareaProps={{}}
         previewOptions={{
           rehypePlugins: [[rehypeSanitize]],

@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
 
-export default function StatusEditor({ onChange, body }) {
+export default function StatusEditor({ onChange }) {
+  const [value, setValue] = useLocalStorage('draft.status.content', '');
+
+  useEffect(() => {
+    onChange('content', value);
+  }, [value]);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <Div>
-      <textarea
-        value={body.content || ''}
-        className="textarea"
-        onChange={(e) => onChange('content', e.target.value)}
-        placeholder="What's happening?"
-      />
+      <textarea value={value} className="textarea" onChange={handleChange} placeholder="What's happening?" />
     </Div>
   );
 }
 
 StatusEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  body: PropTypes.object.isRequired,
 };
 
 StatusEditor.canPublish = (body) => !!body.content;

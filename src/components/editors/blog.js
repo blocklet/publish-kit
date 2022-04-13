@@ -1,31 +1,43 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
 
-export default function BlogEditor({ onChange, body }) {
-  const [height] = useLocalStorage('post-height', 264);
-  const [value, setValue] = useState(body.content || "**What's happening?**");
-  const [title, setTitle] = useState('');
+import { usePostContext } from '../../contexts/post';
+
+const DEFAULT_CONTENT = "**What's happening?**";
+
+export default function BlogEditor({ onChange }) {
+  const { events } = usePostContext();
+  const [height, setHeight] = useLocalStorage('post-height', 264);
+  const [content, setContent] = useLocalStorage('draft.blog.content', DEFAULT_CONTENT);
+  const [title, setTitle] = useLocalStorage('draft.blog.title', '');
 
   useEffect(() => {
-    onChange('content', value);
-  }, [value]);
+    onChange('content', content);
+    onChange('title', title);
+  }, [content, title]);
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-    onChange('title', e.target.value);
-  };
+  events.on('post.published', (post) => {
+    if (post.type === 'blog') {
+      setContent(DEFAULT_CONTENT);
+      setTitle('');
+    }
+  });
+
+  const handleTitle = (e) => setTitle(e.target.value);
+  const handleHeightChange = (newHeight) => setHeight(newHeight);
 
   return (
     <Div>
-      <div className="blog-editor">
+      <div className="blog-editor" data-color-mode="light">
         <MDEditor
-          value={value}
-          onChange={setValue}
+          value={content}
+          onChange={setContent}
+          onHeightChange={handleHeightChange}
           preview="edit"
           height={height}
           textareaProps={{}}
@@ -43,7 +55,6 @@ export default function BlogEditor({ onChange, body }) {
 
 BlogEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  body: PropTypes.object.isRequired,
 };
 
 BlogEditor.canPublish = (body) => !!body.content && !!body.title;

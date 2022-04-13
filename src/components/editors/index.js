@@ -34,14 +34,13 @@ export default function Editor() {
   const [error, setError] = useState(null);
   const [type, setType] = useLocalStorage('post-type', 'status');
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
-  const [body, setBody] = useLocalStorage(`post-body-${type}`, {});
+  const [body, setBody] = useState({});
   const { prependPost } = usePostContext();
   const { session } = useSessionContext();
 
   const createTypeHandler = (t) => () => {
     if (t !== type) {
       setType(t);
-      setBody({});
     }
   };
 
@@ -68,6 +67,8 @@ export default function Editor() {
 
   const EditorComponent = Editors[type];
   const canPublish = Editors[type].canPublish(body);
+
+  console.log(body); // eslint-disable-line
 
   if (!session.user) {
     return null;

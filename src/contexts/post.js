@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import Center from '@arcblock/ux/lib/Center';
 import Spinner from '@arcblock/ux/lib/Spinner';
 import useAsync from 'react-use/lib/useAsync';
+import EventEmitter from 'wolfy87-eventemitter';
 
 import api from '../libs/api';
 import { useSessionContext } from './session';
 
 const PostContext = createContext({});
 const { Provider, Consumer } = PostContext;
+
+const events = new EventEmitter();
 
 function PostProvider({ children, pageSize = 20, type = '' }) {
   const [posts, setPosts] = useState([]);
@@ -42,6 +45,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
   const prependPost = (post) => {
     if (post) {
       setPosts([post, ...posts]);
+      events.emit('post.published', post);
     }
   };
 
@@ -49,6 +53,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
     const index = posts.findIndex((p) => p._id === postId);
     if (index > -1) {
       setPosts([...posts.slice(0, index), ...posts.slice(index + 1)]);
+      events.emit('post.removed', postId);
     }
   };
 
@@ -63,7 +68,9 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
     );
   }
 
-  return <Provider value={{ loading, posts, prependPost, deletePost, loadMorePosts, hasMore }}>{children}</Provider>;
+  return (
+    <Provider value={{ loading, posts, events, prependPost, deletePost, loadMorePosts, hasMore }}>{children}</Provider>
+  );
 }
 
 PostProvider.propTypes = {

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 export default function Markdown({ source }) {
   return (
-    <Div>
+    <Div data-color-mode="light">
       <MDEditor.Markdown source={source} linkTarget="_blank" rehypePlugins={[[rehypeSanitize]]} />
     </Div>
   );

@@ -1,32 +1,41 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
 
 import IconButton from '@material-ui/core/IconButton';
 import IconDelete from '@material-ui/icons/CloseOutlined';
 import IconAdd from '@material-ui/icons/Add';
 
+import { usePostContext } from '../../contexts/post';
+
 import uploader from '../uploader';
 
 const MAX_GALLERY_SIZE = 3;
 
-export default function GalleryEditor({ onChange, body }) {
-  const [images, setImages] = useState(body.images || []);
-  const [description, setDescription] = useState('');
+export default function GalleryEditor({ onChange }) {
+  const { events } = usePostContext();
+  const [images, setImages] = useLocalStorage('draft.gallery.images', []);
+  const [description, setDescription] = useLocalStorage('draft.gallery.description', '');
 
   useEffect(() => {
     onChange('images', images);
-  }, [images]);
+    onChange('description', description);
+  }, [images, description]);
 
+  events.on('post.published', (post) => {
+    if (post.type === 'gallery') {
+      setImages([]);
+      setDescription('');
+    }
+  });
+
+  const handleDescription = (e) => setDescription(e.target.value);
   const handleDelete = (x) => setImages(images.filter((i) => i !== x));
   const handleAdd = () => {
     uploader.on('upload', (url) => setImages([...images, url]));
     uploader.open();
-  };
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-    onChange('description', e.target.value);
   };
 
   return (
@@ -65,7 +74,6 @@ export default function GalleryEditor({ onChange, body }) {
 
 GalleryEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  body: PropTypes.object.isRequired,
 };
 
 GalleryEditor.canPublish = (body) => body.images && body.images.length > 0;

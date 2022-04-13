@@ -8,10 +8,10 @@ import ConfirmDialog from '@arcblock/ux/lib/Dialog/confirm';
 
 import uploader from '../uploader';
 
-const MAX_GALLERY_SIZE = 9;
+const MAX_GALLERY_SIZE = 3;
 
-export default function GalleryEditor({ onChange }) {
-  const [images, setImages] = useState([]);
+export default function GalleryEditor({ onChange, body }) {
+  const [images, setImages] = useState(body.images || []);
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState('');
 
@@ -31,20 +31,20 @@ export default function GalleryEditor({ onChange }) {
 
   return (
     <Div>
-      <div className="upload-header">
-        {!!images.length && (
-          <div className="preview-image">
-            {images.map((x) => (
-              <img key={x} alt="preview" src={x} />
-            ))}
-          </div>
-        )}
-        {!images.length && (
-          <div className="upload-placeholder">
-            <div className="image-regular" />
-          </div>
-        )}
-      </div>
+      {!!images.length && (
+        <div className="upload-preview">
+          {images.map((x) => (
+            <div className="preview-image" key={x}>
+              <img alt="preview" src={x} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      )}
+      {!images.length && (
+        <div className="upload-placeholder">
+          <div className="image-regular" />
+        </div>
+      )}
       <div className="upload-controls">
         <Button onClick={() => setOpen(true)} variant="outlined" color="secondary" size="small">
           Add Description
@@ -79,6 +79,7 @@ export default function GalleryEditor({ onChange }) {
 
 GalleryEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
+  body: PropTypes.object.isRequired,
 };
 
 GalleryEditor.canPublish = (body) => body.images && body.images.length > 0;
@@ -87,42 +88,40 @@ const Div = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 5px;
 
-  .upload-header {
+  .upload-placeholder {
+    position: relative;
     text-align: center;
-    color: #070c16;
-
-    .upload-placeholder {
-      position: relative;
-      width: 250px;
-      height: 204px;
-      margin: 0 auto;
-      .image-regular {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background-size: 70%;
-        background-repeat: no-repeat;
-        background-image: url(/images/splash-image.png);
-        background-position: center;
-        opacity: 0.3;
-      }
+    width: 250px;
+    height: 204px;
+    margin: 0 auto;
+    .image-regular {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-size: 70%;
+      background-repeat: no-repeat;
+      background-image: url(/images/splash-image.png);
+      background-position: center;
+      opacity: 0.3;
     }
+  }
+
+  .upload-preview {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
 
     .preview-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 250px;
-      height: 200px;
-      margin: 0 auto;
+      flex-basis: calc(100% / 3);
+      max-height: 240px;
 
       img {
+        max-width: 100%;
+        max-height: 100%;
         width: auto;
         height: auto;
-        max-width: 250px;
-        max-height: 200px;
       }
     }
   }

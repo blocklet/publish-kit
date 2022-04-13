@@ -78,7 +78,6 @@ const Div = styled.div`
 
   .post-content {
     padding-left: 40px;
-    margin-top: 8px;
     margin-bottom: 8px;
   }
 

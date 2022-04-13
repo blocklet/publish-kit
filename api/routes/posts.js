@@ -43,7 +43,7 @@ const schema = Joi.object({
     {
       is: Post.TYPE.GALLERY,
       then: Joi.object({
-        images: Joi.array().items(Joi.string()).min(1).max(9).required(),
+        images: Joi.array().items(Joi.string()).min(1).max(3).required(),
         description: Joi.string().trim().min(1).max(280).required(),
       }),
     },

@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Button from '@arcblock/ux/lib/Button';
 import ConfirmDialog from '@arcblock/ux/lib/Dialog/confirm';
+import IconButton from '@material-ui/core/IconButton';
+import IconDelete from '@material-ui/icons/CloseOutlined';
 
 import uploader from '../uploader';
 
@@ -24,6 +27,8 @@ export default function GalleryEditor({ onChange, body }) {
     uploader.open();
   };
 
+  const handleDelete = (x) => setImages(images.filter((i) => i !== x));
+
   const handleDescription = () => {
     onChange('description', description);
     setOpen(false);
@@ -36,6 +41,9 @@ export default function GalleryEditor({ onChange, body }) {
           {images.map((x) => (
             <div className="preview-image" key={x}>
               <img alt="preview" src={x} loading="lazy" />
+              <IconButton className="preview-remove" onClick={() => handleDelete(x)} size="small">
+                <IconDelete fontSize="small" />
+              </IconButton>
             </div>
           ))}
         </div>
@@ -46,6 +54,11 @@ export default function GalleryEditor({ onChange, body }) {
         </div>
       )}
       <div className="upload-controls">
+        {!!description && (
+          <Typography component="p" className="image-description">
+            {description}
+          </Typography>
+        )}
         <Button onClick={() => setOpen(true)} variant="outlined" color="secondary" size="small">
           Add Description
         </Button>
@@ -114,6 +127,7 @@ const Div = styled.div`
     flex-wrap: wrap;
 
     .preview-image {
+      position: relative;
       flex-basis: calc(100% / 3);
       max-height: 240px;
 
@@ -122,6 +136,13 @@ const Div = styled.div`
         max-height: 100%;
         width: auto;
         height: auto;
+      }
+
+      .preview-remove {
+        cursor: pointer;
+        position: absolute;
+        top: 4px;
+        right: 4px;
       }
     }
   }
@@ -134,6 +155,11 @@ const Div = styled.div`
 
     button {
       margin-right: 8px;
+    }
+
+    .image-description {
+      margin-right: 8px;
+      font-size: 14px;
     }
   }
 `;

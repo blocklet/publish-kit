@@ -5,7 +5,8 @@ import { format } from 'timeago.js';
 
 import DidAvatar from '@arcblock/did-connect/lib/Avatar';
 
-import PostPermission from '../../editors/permission';
+import PostPermission from '../../post/permission';
+import PostDelete from '../../post/delete';
 
 import { useSessionContext } from '../../../contexts/session';
 
@@ -38,6 +39,7 @@ export default function StatusCard({ post }) {
       <div className="status-content">{post.body.content}</div>
       <div className="status-actions">
         <PostPermission onChange={onChangePermission} initialValue={post.permission} minimal />
+        <PostDelete post={post} />
       </div>
     </Div>
   );

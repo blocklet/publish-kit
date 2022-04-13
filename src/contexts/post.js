@@ -45,6 +45,13 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
     }
   };
 
+  const deletePost = (postId) => {
+    const index = posts.findIndex((p) => p._id === postId);
+    if (index > -1) {
+      setPosts([...posts.slice(0, index), ...posts.slice(index + 1)]);
+    }
+  };
+
   const state = useAsync(loadInitialPosts, []);
   useEffect(() => loadInitialPosts, [session.user]);
 
@@ -56,7 +63,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
     );
   }
 
-  return <Provider value={{ loading, posts, prependPost, loadMorePosts, hasMore }}>{children}</Provider>;
+  return <Provider value={{ loading, posts, prependPost, deletePost, loadMorePosts, hasMore }}>{children}</Provider>;
 }
 
 PostProvider.propTypes = {

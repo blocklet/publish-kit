@@ -16,7 +16,7 @@ import Spinner from '@arcblock/ux/lib/Spinner';
 import StatusEditor from './status';
 import BlogEditor from './blog';
 import GalleryEditor from './gallery';
-import PostPermission from './permission';
+import PostPermission from '../post/permission';
 
 import { usePostContext } from '../../contexts/post';
 import { useSessionContext } from '../../contexts/session';

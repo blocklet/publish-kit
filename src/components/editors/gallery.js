@@ -1,13 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Button from '@arcblock/ux/lib/Button';
-import ConfirmDialog from '@arcblock/ux/lib/Dialog/confirm';
 import IconButton from '@material-ui/core/IconButton';
 import IconDelete from '@material-ui/icons/CloseOutlined';
+import IconAdd from '@material-ui/icons/Add';
 
 import uploader from '../uploader';
 
@@ -15,77 +13,54 @@ const MAX_GALLERY_SIZE = 3;
 
 export default function GalleryEditor({ onChange, body }) {
   const [images, setImages] = useState(body.images || []);
-  const [open, setOpen] = useState(false);
   const [description, setDescription] = useState('');
 
   useEffect(() => {
     onChange('images', images);
   }, [images]);
 
-  const handleOpen = () => {
+  const handleDelete = (x) => setImages(images.filter((i) => i !== x));
+  const handleAdd = () => {
     uploader.on('upload', (url) => setImages([...images, url]));
     uploader.open();
   };
-
-  const handleDelete = (x) => setImages(images.filter((i) => i !== x));
-
-  const handleDescription = () => {
-    onChange('description', description);
-    setOpen(false);
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+    onChange('description', e.target.value);
   };
 
   return (
     <Div>
-      {!!images.length && (
-        <div className="upload-preview">
-          {images.map((x) => (
-            <div className="preview-image" key={x}>
-              <img alt="preview" src={x} loading="lazy" />
-              <IconButton className="preview-remove" onClick={() => handleDelete(x)} size="small">
-                <IconDelete fontSize="small" />
+      <div className="upload-preview">
+        {images.map((x) => (
+          <div className="preview-image" key={x}>
+            <img alt="preview" src={x} loading="lazy" />
+            <IconButton className="preview-remove" onClick={() => handleDelete(x)} size="small">
+              <IconDelete fontSize="small" />
+            </IconButton>
+          </div>
+        ))}
+        {images.length < MAX_GALLERY_SIZE && (
+          <div className="preview-image">
+            <div className="upload-placeholder">
+              <div className="placeholder-image" />
+              <IconButton onClick={handleAdd} color="secondary" size="large" className="placeholder-button">
+                <IconAdd fontSize="large" />
               </IconButton>
             </div>
-          ))}
-        </div>
-      )}
-      {!images.length && (
-        <div className="upload-placeholder">
-          <div className="image-regular" />
-        </div>
-      )}
-      <div className="upload-controls">
-        {!!description && (
-          <Typography component="p" className="image-description">
-            {description}
-          </Typography>
+          </div>
         )}
-        <Button onClick={() => setOpen(true)} variant="outlined" color="secondary" size="small">
-          Add Description
-        </Button>
-        <Button
-          onClick={handleOpen}
-          variant="contained"
-          color="primary"
-          size="small"
-          disabled={images.length >= MAX_GALLERY_SIZE}>
-          Upload Image
-        </Button>
       </div>
-      <ConfirmDialog
-        open={open}
-        onCancel={() => setOpen(false)}
-        onConfirm={handleDescription}
-        title="Add Description"
-        style={{ minWidth: 480 }}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          margin="none"
-          placeholder="Image description"
-          label=""
-          onChange={(e) => setDescription(e.target.value)}
+      <div className="upload-footer">
+        <label htmlFor="upload-description">Description</label>
+        <input
+          type="text"
+          id="upload-description"
+          placeholder="Describe the images"
+          value={description}
+          onChange={handleDescription}
         />
-      </ConfirmDialog>
+      </div>
     </Div>
   );
 }
@@ -101,35 +76,16 @@ const Div = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 5px;
 
-  .upload-placeholder {
-    position: relative;
-    text-align: center;
-    width: 250px;
-    height: 204px;
-    margin: 0 auto;
-    .image-regular {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-size: 70%;
-      background-repeat: no-repeat;
-      background-image: url(/images/splash-image.png);
-      background-position: center;
-      opacity: 0.3;
-    }
-  }
-
   .upload-preview {
-    margin: 0 auto;
+    margin: 8px 8px 6px;
     display: flex;
     flex-wrap: wrap;
 
     .preview-image {
       position: relative;
       flex-basis: calc(100% / 3);
-      max-height: 240px;
+      max-height: 200px;
+      text-align: center;
 
       img {
         max-width: 100%;
@@ -145,21 +101,62 @@ const Div = styled.div`
         right: 4px;
       }
     }
+
+    .upload-placeholder {
+      position: relative;
+      height: 200px;
+
+      .placeholder-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-size: 50%;
+        background-repeat: no-repeat;
+        background-image: url(/images/splash-image.png);
+        background-position: center;
+        opacity: 0.3;
+      }
+
+      .placeholder-button {
+        transform: translate(-60%, -60%);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+      }
+    }
+  }
+
+  .upload-footer {
+    display: flex;
+    margin: 0 8px 8px;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      font-size: 14px;
+      margin-right: 8px;
+    }
+
+    input {
+      flex: 1;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+      font-size: 14px;
+      width: 100%;
+      padding: 4px 8px;
+
+      &:focus {
+        border: 1px solid #ced4da;
+        outline: none;
+      }
+    }
   }
 
   .upload-controls {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 16px;
-
-    button {
-      margin-right: 8px;
-    }
-
-    .image-description {
-      margin-right: 8px;
-      font-size: 14px;
-    }
   }
 `;

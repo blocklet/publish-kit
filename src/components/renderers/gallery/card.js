@@ -38,12 +38,19 @@ const Div = styled.div`
 
   .post-images {
     margin-top: 8px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 
     .post-image {
-      flex-basis: calc(100% / 3);
+      flex-basis: calc(100% / 3 - 8px);
       max-height: 240px;
+      margin-right: 8px;
+      text-align: left;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
 
       img {
         max-width: 100%;

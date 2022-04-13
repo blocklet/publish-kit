@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
 
 export default function BlogEditor({ onChange, body }) {
   const [value, setValue] = useState(body.content || "**What's happening?**");
@@ -12,7 +13,15 @@ export default function BlogEditor({ onChange, body }) {
 
   return (
     <Div>
-      <MDEditor value={value} onChange={setValue} preview="edit" textareaProps={{}} />
+      <MDEditor
+        value={value}
+        onChange={setValue}
+        preview="edit"
+        textareaProps={{}}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+      />
     </Div>
   );
 }

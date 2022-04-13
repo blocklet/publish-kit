@@ -24,7 +24,7 @@ export default function Layout({ children }) {
       addons={<SessionManager session={session} size={24} />}
       links={session.user ? links : []}
       variant="border"
-      logo={<img src={window.blocklet.appLogo} alt="logo" style={{ width: 36, height: 36 }} />}
+      logo={<img src={window.blocklet.appLogo} alt="logo" style={{ width: 45, height: 45 }} />}
       style={{ width: '100%' }}>
       <Div>{children}</Div>
     </BaseLayout>

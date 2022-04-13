@@ -1,19 +1,19 @@
-name: press-plus
+name: publish-kit
 version: 0.1.0
-title: Press Plus
-description: One press engine to rule them all
+title: Publish Kit
+description: One content publish engine to rule them all
 keywords:
   - blocklet
   - react
 group: dapp
-did: z8ia1f4JyCFeSrdcSJAMhg4cSFgYt5TZKgzrE
+did: z8iZvDqkUT6itFaCDVcLejiEHTqiix5bg1MRK
 main: api/index.js
 author:
   name: wangshijun
   email: wangshijun2010@gmail.com
 repository:
   type: git
-  url: 'git+https://github.com/blocklet/press-plus.git'
+  url: 'git+https://github.com/blocklet/publish-kit.git'
 specVersion: 1.2.4
 logo: logo.png
 files:

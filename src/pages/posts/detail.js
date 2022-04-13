@@ -6,7 +6,9 @@ import { format } from 'timeago.js';
 
 import DidAvatar from '@arcblock/did-connect/lib/Avatar';
 import Spinner from '@arcblock/ux/lib/Spinner';
+import Alert from '@arcblock/ux/lib/Alert';
 import Typography from '@material-ui/core/Typography';
+import IconInfo from '@material-ui/icons/InfoOutlined';
 
 import Markdown from '../../components/markdown';
 
@@ -15,12 +17,37 @@ import api from '../../libs/api';
 export default function PostDetail() {
   const { id } = useParams();
   const post = useAsync(async () => {
-    const { data } = await api.get(`/api/posts/${id}`);
-    return data;
+    try {
+      const { data } = await api.get(`/api/posts/${id}`);
+      return data;
+    } catch (err) {
+      if (err.response && err.response.data) {
+        throw new Error(err.response.data.error);
+      }
+
+      throw err;
+    }
   });
 
+  if (post.error) {
+    return (
+      <Div>
+        <Alert variant="icon" type="error">
+          <ErrorWrapper>
+            <IconInfo style={{ color: '#f16e6e', marginRight: 8 }} />
+            {post.error.message}
+          </ErrorWrapper>
+        </Alert>
+      </Div>
+    );
+  }
+
   if (!post.value || post.loading) {
-    return <Spinner />;
+    return (
+      <Div>
+        <Spinner />
+      </Div>
+    );
   }
 
   return (
@@ -76,4 +103,13 @@ const Div = styled.div`
   .post-content {
     margin-top: 32px;
   }
+
+  .alert i {
+    display: none;
+  }
+`;
+
+const ErrorWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;

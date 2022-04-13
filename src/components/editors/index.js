@@ -178,6 +178,6 @@ const Div = styled.div`
   }
 
   .editor-error {
-    color: red;
+    color: #f16e6e;
   }
 `;

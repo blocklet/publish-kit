@@ -128,7 +128,11 @@ router.delete('/posts/:postId', user, auth, async (req, res) => {
 
 // get detail
 router.get('/posts/:postId', async (req, res) => {
-  const doc = await Post.findOne({ _id: req.params.postId });
+  const doc = await Post.findOne({ _id: req.params.postId, type: Post.TYPE.BLOG });
+  if (!doc) {
+    return res.status(404).json({ error: 'post not found' });
+  }
+
   return res.jsonp(doc);
 });
 

@@ -44,19 +44,17 @@ export default function GalleryEditor({ onChange, body }) {
           <div className="preview-image">
             <div className="upload-placeholder">
               <div className="placeholder-image" />
-              <IconButton onClick={handleAdd} color="secondary" size="large" className="placeholder-button">
-                <IconAdd fontSize="large" />
+              <IconButton onClick={handleAdd} color="secondary" size="medium" className="placeholder-button">
+                <IconAdd style={{ fontSize: 64 }} />
               </IconButton>
             </div>
           </div>
         )}
       </div>
       <div className="upload-footer">
-        <label htmlFor="upload-description">Description</label>
         <input
           type="text"
-          id="upload-description"
-          placeholder="Describe the images"
+          placeholder="Describe the gallery with a few words"
           value={description}
           onChange={handleDescription}
         />
@@ -84,7 +82,7 @@ const Div = styled.div`
     .preview-image {
       position: relative;
       flex-basis: calc(100% / 3);
-      max-height: 200px;
+      max-height: 247px;
       text-align: center;
 
       img {
@@ -104,7 +102,7 @@ const Div = styled.div`
 
     .upload-placeholder {
       position: relative;
-      height: 200px;
+      height: 247px;
 
       .placeholder-image {
         position: absolute;
@@ -130,25 +128,20 @@ const Div = styled.div`
 
   .upload-footer {
     display: flex;
-    margin: 0 8px 8px;
+    margin: 8px 0 0;
     justify-content: space-between;
     align-items: center;
 
-    label {
-      font-size: 14px;
-      margin-right: 8px;
-    }
-
     input {
       flex: 1;
-      border-radius: 4px;
-      border: 1px solid #ced4da;
-      font-size: 14px;
+      border-radius: 0 0 5px 5px;
+      border: 0;
+      border-top: 1px solid #ced4da;
+      font-size: 16px;
       width: 100%;
-      padding: 4px 8px;
+      padding: 8px;
 
       &:focus {
-        border: 1px solid #ced4da;
         outline: none;
       }
     }

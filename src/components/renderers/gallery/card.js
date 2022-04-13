@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 import PostCard from '../base';
 import Markdown from '../../markdown';
 
 export default function GalleryCard({ post }) {
+  const { images } = post.body;
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+
   return (
     <Div>
       <PostCard post={post}>
@@ -16,12 +22,22 @@ export default function GalleryCard({ post }) {
         )}
         <div className="post-images">
           {post.body.images.map((x) => (
-            <div className="post-image" key={x}>
+            <div className="post-image" key={x} onClick={() => setOpen(true)}>
               <img src={x} alt="" loading="lazy" />
             </div>
           ))}
         </div>
       </PostCard>
+      {open && (
+        <Lightbox
+          mainSrc={images[index]}
+          nextSrc={images[(index + 1) % images.length]}
+          prevSrc={images[(index + images.length - 1) % images.length]}
+          onCloseRequest={() => setOpen(false)}
+          onMovePrevRequest={() => setIndex((index + images.length - 1) % images.length)}
+          onMoveNextRequest={() => setIndex((index + 1) % images.length)}
+        />
+      )}
     </Div>
   );
 }
@@ -47,6 +63,7 @@ const Div = styled.div`
       max-height: 240px;
       margin-right: 8px;
       text-align: left;
+      cursor: pointer;
 
       &:last-of-type {
         margin-right: 0;

@@ -132,6 +132,7 @@ export default function Editor() {
             color="primary"
             variant="contained"
             size="small"
+            style={{ marginLeft: 16 }}
             onClick={handlePublish}
             disabled={session.user && (loading || canPublish === false)}>
             {loading ? <Spinner size="small" /> : null}

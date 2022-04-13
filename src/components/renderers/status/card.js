@@ -95,13 +95,10 @@ const Div = styled.div`
     margin-left: 40px;
     margin-top: 16px;
   }
-  .status-actions div {
+
+  .post-action {
     display: flex;
-    margin-right: 16px;
-  }
-  .status-actions div svg {
-    color: #657786;
-    margin-right: 10px;
+    margin-right: 8px;
   }
 
   @media screen and (max-width: 430px) {

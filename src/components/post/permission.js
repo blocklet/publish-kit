@@ -58,7 +58,7 @@ export default function PostPermission({ onChange, initialValue, minimal }) {
     <Div>
       {minimal && (
         <span
-          className="menu-trigger"
+          className="post-action menu-trigger"
           aria-haspopup="true"
           aria-controls="permission-menu"
           onClick={handleClickListItem}>
@@ -70,8 +70,7 @@ export default function PostPermission({ onChange, initialValue, minimal }) {
           size="small"
           aria-haspopup="true"
           aria-controls="permission-menu"
-          className="menu-trigger"
-          style={{ marginRight: 24 }}
+          className="post-action menu-trigger"
           disabled={!canChange}
           onClick={handleClickListItem}>
           {options[selected].icon}
@@ -104,5 +103,6 @@ PostPermission.defaultProps = {
 const Div = styled.div`
   .menu-trigger {
     cursor: pointer;
+    color: rgba(0, 0, 0, 0.54);
   }
 `;

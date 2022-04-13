@@ -27,7 +27,7 @@ export default function PostDelete({ post }) {
 
   return (
     <Div>
-      <span className="action-trigger" onClick={() => setOpen(true)}>
+      <span className="post-action" onClick={() => setOpen(true)}>
         <IconDelete fontSize="small" />
       </span>
       <ConfirmDialog open={open} onCancel={() => setOpen(false)} onConfirm={onDelete} title="Warning">
@@ -42,7 +42,8 @@ PostDelete.propTypes = {
 };
 
 const Div = styled.div`
-  .action-trigger {
+  .post-action {
     cursor: pointer;
+    color: rgba(0, 0, 0, 0.54);
   }
 `;

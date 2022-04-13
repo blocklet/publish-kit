@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Lightbox from 'react-image-lightbox';
+import { LazyImage } from 'react-lazy-images';
 import 'react-image-lightbox/style.css';
 
 import PostCard from '../base';
@@ -23,7 +25,14 @@ export default function GalleryCard({ post }) {
         <div className="post-images">
           {post.body.images.map((x) => (
             <div className="post-image" key={x} onClick={() => setOpen(true)}>
-              <img src={x} alt="" loading="lazy" />
+              <LazyImage
+                src={x}
+                alt=""
+                placeholder={({ imageProps, ref }) => (
+                  <img ref={ref} src="/images/placeholder.png" className="placeholder" alt={imageProps.alt} />
+                )}
+                actual={({ imageProps }) => <img className="actual" {...imageProps} />}
+              />
             </div>
           ))}
         </div>
@@ -74,6 +83,10 @@ const Div = styled.div`
         max-height: 100%;
         width: auto;
         height: auto;
+      }
+
+      .placeholder {
+        opacity: 0.3;
       }
     }
   }

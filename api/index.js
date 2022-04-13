@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: '1 mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1 mb' }));
 
-app.use('/uploads', express.static(env.uploadDir));
+app.use('/uploads', express.static(env.uploadDir, { maxAge: '365d' }));
 
 const router = express.Router();
 router.use('/api', require('./routes/posts'));

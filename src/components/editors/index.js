@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import get from 'lodash/get';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -34,9 +34,9 @@ export default function Editor() {
   const [error, setError] = useState(null);
   const [type, setType] = useLocalStorage('post-type', 'status');
   const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
-  const [body, setBody] = useState({});
   const { prependPost } = usePostContext();
   const { session } = useSessionContext();
+  const body = useRef({});
 
   const createTypeHandler = (t) => () => {
     if (t !== type) {
@@ -47,11 +47,19 @@ export default function Editor() {
   const getBtnDisabled = (t) => type === t;
   const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
+  const EditorComponent = Editors[type];
+
   const handlePublish = async () => {
+    const canPublish = Editors[type].canPublish(body.current);
+    if (typeof canPublish === 'string') {
+      setError(canPublish);
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
     setLoading(true);
     try {
-      const { data } = await api.post('/api/posts', { type, permission, body });
-      setBody({});
+      const { data } = await api.post('/api/posts', { type, permission, body: body.current });
       prependPost(data);
     } catch (err) {
       setError(get(err, 'response.data.error', err.message));
@@ -62,13 +70,8 @@ export default function Editor() {
 
   const handleEditorChange = (key, value) => {
     setError('');
-    setBody({ ...body, [key]: value });
+    body.current[key] = value;
   };
-
-  const EditorComponent = Editors[type];
-  const canPublish = Editors[type].canPublish(body);
-
-  console.log(body); // eslint-disable-line
 
   if (!session.user) {
     return null;
@@ -77,7 +80,7 @@ export default function Editor() {
   return (
     <Div>
       <div className="editor-wrapper">
-        <EditorComponent body={body} onChange={handleEditorChange} />
+        <EditorComponent onChange={handleEditorChange} />
       </div>
       <div className="editor-control">
         <div className="editor-icons">
@@ -134,7 +137,7 @@ export default function Editor() {
             size="small"
             style={{ marginLeft: 16 }}
             onClick={handlePublish}
-            disabled={loading || canPublish === false}>
+            disabled={loading}>
             {loading ? <Spinner size="small" /> : null}
             Publish {type}
           </Button>

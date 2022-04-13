@@ -20,6 +20,7 @@ export default function GalleryEditor({ onChange }) {
   const [description, setDescription] = useLocalStorage('draft.gallery.description', '');
 
   useEffect(() => {
+    console.log({ images, description }); // eslint-disable-line no-console
     onChange('images', images);
     onChange('description', description);
   }, [images, description]);
@@ -76,7 +77,13 @@ GalleryEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-GalleryEditor.canPublish = (body) => body.images && body.images.length > 0;
+GalleryEditor.canPublish = (body) => {
+  if (!body.images.length) {
+    return 'gallery images can not be empty';
+  }
+
+  return true;
+};
 
 const Div = styled.div`
   border: 1px solid #d0d7de;

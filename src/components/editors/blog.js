@@ -57,7 +57,17 @@ BlogEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-BlogEditor.canPublish = (body) => !!body.content && !!body.title;
+BlogEditor.canPublish = (body) => {
+  if (!body.title.trim()) {
+    return 'blog title can not be empty';
+  }
+
+  if (!body.content.trim()) {
+    return 'blog content can not be empty';
+  }
+
+  return true;
+};
 
 const Div = styled.div`
   .blog-editor {

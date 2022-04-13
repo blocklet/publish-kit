@@ -25,7 +25,13 @@ StatusEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-StatusEditor.canPublish = (body) => !!body.content;
+StatusEditor.canPublish = (body) => {
+  if (!body.content.trim()) {
+    return 'status content can not be empty';
+  }
+
+  return true;
+};
 
 const Div = styled.div`
   position: relative;

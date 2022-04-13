@@ -30,8 +30,8 @@ export default function PostDelete({ post }) {
       <span className="post-action" onClick={() => setOpen(true)}>
         <IconDelete fontSize="small" />
       </span>
-      <ConfirmDialog open={open} onCancel={() => setOpen(false)} onConfirm={onDelete} title="Warning">
-        Delete this post?
+      <ConfirmDialog open={open} onCancel={() => setOpen(false)} onConfirm={onDelete} title="Confirm">
+        Are you sure you want to delete this {post.type}?
       </ConfirmDialog>
     </Div>
   );

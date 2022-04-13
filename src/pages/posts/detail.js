@@ -72,6 +72,8 @@ export default function PostDetail() {
 }
 
 const Div = styled.div`
+  margin-bottom: 32px;
+
   .post-title {
     font-weight: bold;
     font-size: 2rem;

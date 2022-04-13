@@ -14,8 +14,6 @@ import api from '../../libs/api';
 
 export default function BaseCard({ post, children }) {
   const { session } = useSessionContext();
-  const did = session && session.user && session.user.did ? session.user.did : '';
-  const name = did === post.createdBy ? session.user.fullName : post.author;
 
   const onChangePermission = async (permission) => {
     if (permission === post.permission) {
@@ -32,15 +30,17 @@ export default function BaseCard({ post, children }) {
           <DidAvatar variant="circle" did={post.createdBy} size={32} shape="circle" />
         </div>
         <div className="post-meta">
-          <span>{name}</span>
+          <span>{post.author}</span>
           <span>· {format(post.createdAt)}</span>
         </div>
       </div>
       <div className="post-content">{children}</div>
-      <div className="post-actions">
-        <PostPermission onChange={onChangePermission} initialValue={post.permission} minimal />
-        <PostDelete post={post} />
-      </div>
+      {session.user && (
+        <div className="post-actions">
+          <PostPermission onChange={onChangePermission} initialValue={post.permission} minimal />
+          <PostDelete post={post} />
+        </div>
+      )}
     </Div>
   );
 }

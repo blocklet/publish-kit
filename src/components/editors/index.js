@@ -49,11 +49,6 @@ export default function Editor() {
   const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
   const handlePublish = async () => {
-    if (!session.user) {
-      session.login();
-      return;
-    }
-
     setLoading(true);
     try {
       const { data } = await api.post('/api/posts', { type, permission, body });
@@ -73,6 +68,10 @@ export default function Editor() {
 
   const EditorComponent = Editors[type];
   const canPublish = Editors[type].canPublish(body);
+
+  if (!session.user) {
+    return null;
+  }
 
   return (
     <Div>
@@ -134,9 +133,9 @@ export default function Editor() {
             size="small"
             style={{ marginLeft: 16 }}
             onClick={handlePublish}
-            disabled={session.user && (loading || canPublish === false)}>
+            disabled={loading || canPublish === false}>
             {loading ? <Spinner size="small" /> : null}
-            {session.user ? 'Publish' : 'Connect'}
+            Publish {type}
           </Button>
         </div>
       </div>
@@ -149,7 +148,7 @@ Editor.propTypes = {};
 Editor.defaultProps = {};
 
 const Div = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 
   .editor-control {
     padding: 8px 0;

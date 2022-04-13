@@ -106,9 +106,7 @@ export default function Layout({ title, brand, links, logo, addons, baseUrl, hom
           </Container>
         </AppBar>
         <div className="toolbar" />
-        <Container maxWidth="md" style={{ marginTop: 16, flex: 1 }}>
-          {children}
-        </Container>
+        <Container maxWidth="md">{children}</Container>
         {!!baseUrl && <OpenInWallet locale="zh" link={baseUrl} />}
       </Div>
       <DrawerDiv>

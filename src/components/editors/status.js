@@ -27,7 +27,6 @@ const Div = styled.div`
 
   .textarea {
     font-size: 1rem;
-    font-weight: bold;
     padding: 0.5rem;
     border-radius: 5px;
     border-color: ${(props) => props.theme.palette.primary.main};

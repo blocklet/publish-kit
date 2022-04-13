@@ -17,7 +17,7 @@ export default function Posts() {
   const { loading, posts, hasMore, loadMorePosts } = usePostContext();
 
   if (posts.length === 0) {
-    return <Empty />;
+    return <Empty>No posts found</Empty>;
   }
 
   return (

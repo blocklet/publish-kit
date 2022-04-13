@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import PostCard from '../base';
+import Markdown from '../../markdown';
 
 export default function StatusCard({ post }) {
   return (
     <Div>
-      <PostCard post={post}>{post.body.content}</PostCard>
+      <PostCard post={post}>
+        <Markdown source={post.body.content} />
+      </PostCard>
     </Div>
   );
 }

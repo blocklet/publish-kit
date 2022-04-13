@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import PostCard from '../base';
+import Markdown from '../../markdown';
 
 export default function GalleryCard({ post }) {
   return (
     <Div>
       <PostCard post={post}>
-        {!!post.body.description && <div className="post-description">{post.body.description}</div>}
+        {!!post.body.description && (
+          <div className="post-description">
+            <Markdown source={post.body.description} />
+          </div>
+        )}
         <div className="post-images">
           {post.body.images.map((x) => (
             <div className="post-image" key={x}>

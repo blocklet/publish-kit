@@ -40,7 +40,7 @@ payment:
 timeout:
   start: 60
 requirements:
-  server: '>=1.6.29'
+  server: '>=1.7.6'
   os: '*'
   cpu: '*'
 scripts:
@@ -50,5 +50,11 @@ environments: []
 capabilities:
   clusterMode: false
   component: true
-screenshots: []
+screenshots:
+  - publish-status.png
+  - publish-markdown.png
+  - status-card.png
+  - publish-gallery.png
+  - mixed-card.png
+  - gallery-card.png
 children: []

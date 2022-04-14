@@ -26,3 +26,11 @@ By default, only the blocklet owner can publish content on a running Publish Kit
 - [ ] support content publish to paid users with crypto
 - [ ] support content publish to subscribed users with crypto
 - [ ] support social feed aggregation, perhaps this will go into another blocklet
+
+## How Publish Kit is Built?
+
+Publish Kit is built with following awesome open source technology:
+
+- [Material UI](https://v4.mui.com)
+- [Uppload](https://github.com/elninotech/uppload)
+- [React Markdown Editor](https://github.com/uiwjs/react-md-editor)

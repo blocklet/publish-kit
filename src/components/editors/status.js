@@ -3,20 +3,29 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
+import { usePostContext } from '../../contexts/post';
+
 export default function StatusEditor({ onChange }) {
-  const [value, setValue] = useLocalStorage('draft.status.content', '');
+  const { events } = usePostContext();
+  const [content, setContent] = useLocalStorage('draft.status.content', '');
 
   useEffect(() => {
-    onChange('content', value);
-  }, [value]);
+    onChange('content', content);
+  }, [content]);
+
+  events.on('post.published', (post) => {
+    if (post.type === 'status') {
+      setContent('');
+    }
+  });
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setContent(e.target.value);
   };
 
   return (
     <Div>
-      <textarea value={value} className="textarea" onChange={handleChange} placeholder="What's happening?" />
+      <textarea value={content} className="textarea" onChange={handleChange} placeholder="What's happening?" />
     </Div>
   );
 }

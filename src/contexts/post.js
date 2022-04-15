@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import uniqBy from 'lodash/uniqBy';
 import Center from '@arcblock/ux/lib/Center';
 import Spinner from '@arcblock/ux/lib/Spinner';
 import useAsync from 'react-use/lib/useAsync';
@@ -36,7 +37,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
       .then(({ data }) => {
         setPage(page + 1);
         setHasMore(page + 1 < data.pageCount);
-        setPosts([...posts, ...data.posts]);
+        setPosts(uniqBy([...posts, ...data.posts], '_id'));
         setLoading(false);
       })
       .catch(console.error);
@@ -44,7 +45,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
 
   const prependPost = (post) => {
     if (post) {
-      setPosts([post, ...posts]);
+      setPosts(uniqBy([post, ...posts], '_id'));
       events.emit('post.published', post);
     }
   };
@@ -52,7 +53,7 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
   const deletePost = (postId) => {
     const index = posts.findIndex((p) => p._id === postId);
     if (index > -1) {
-      setPosts([...posts.slice(0, index), ...posts.slice(index + 1)]);
+      setPosts(uniqBy([...posts.slice(0, index), ...posts.slice(index + 1)], '_id'));
       events.emit('post.removed', postId);
     }
   };

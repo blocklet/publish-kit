@@ -9,13 +9,7 @@ import { useSessionContext } from '../../contexts/session';
 export default function Layout({ children }) {
   const { session } = useSessionContext();
 
-  const links = [
-    {
-      url: '/history',
-      title: 'History',
-      name: 'history',
-    },
-  ];
+  const links = [];
 
   return (
     <BaseLayout

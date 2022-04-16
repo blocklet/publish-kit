@@ -30,7 +30,6 @@ function PostProvider({ children, pageSize = 20, type = '' }) {
   };
 
   const loadMorePosts = () => {
-    console.log('load more'); // eslint-disable-line
     setLoading(true);
     api
       .get(`/api/posts?page=${page + 1}&pageSize=${pageSize}&type=${type}`)

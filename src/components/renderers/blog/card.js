@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import IconLink from '@material-ui/icons/LinkOutlined';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 import PostCard from '../base';
 
@@ -10,12 +11,12 @@ export default function BlogCard({ post }) {
   return (
     <Div>
       <PostCard post={post}>
-        <a href={`/post/${post._id}`} className="post-link">
+        <Link to={`/post/${post._id}`} className="post-link">
           <div className="post-cover">
             <IconLink fontSize="medium" style={{ color: '#999' }} />
           </div>
           <Typography className="post-title">{post.body.title} </Typography>
-        </a>
+        </Link>
       </PostCard>
     </Div>
   );

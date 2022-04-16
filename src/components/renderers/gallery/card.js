@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Lightbox from 'react-image-lightbox';
 import { LazyImage } from 'react-lazy-images';
+import joinUrl from 'url-join';
+
 import 'react-image-lightbox/style.css';
 
 import PostCard from '../base';
@@ -29,7 +31,12 @@ export default function GalleryCard({ post }) {
                 src={x}
                 alt=""
                 placeholder={({ imageProps, ref }) => (
-                  <img ref={ref} src="/images/placeholder.png" className="placeholder" alt={imageProps.alt} />
+                  <img
+                    ref={ref}
+                    src={joinUrl(window.blocklet.prefix, '/images/placeholder.png')}
+                    className="placeholder"
+                    alt={imageProps.alt}
+                  />
                 )}
                 actual={({ imageProps }) => <img className="actual" {...imageProps} />}
               />

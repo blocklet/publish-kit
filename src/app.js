@@ -10,7 +10,6 @@ import Layout from './components/layout';
 
 import Home from './pages/home';
 import PostDetail from './pages/posts/detail';
-import PostHistory from './pages/posts/history';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -37,7 +36,6 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/history" element={<PostHistory />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

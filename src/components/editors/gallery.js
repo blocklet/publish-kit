@@ -20,7 +20,6 @@ export default function GalleryEditor({ onChange }) {
   const [description, setDescription] = useLocalStorage('draft.gallery.description', '');
 
   useEffect(() => {
-    console.log({ images, description }); // eslint-disable-line no-console
     onChange('images', images);
     onChange('description', description);
   }, [images, description]);

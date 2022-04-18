@@ -1,3 +1,7 @@
+## 0.1.6 (April 18, 2022)
+
+- chore: publish to test store
+
 ## 0.1.5 (April 17, 2022)
 
 - chore: make things work in production

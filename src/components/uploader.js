@@ -1,3 +1,4 @@
+import joinUrl from 'url-join';
 import {
   en,
   xhrUploader,
@@ -19,13 +20,16 @@ import {
 import 'uppload/dist/uppload.css';
 import 'uppload/dist/themes/light.css';
 
+const obj = new URL(window.location.origin);
+obj.pathname = joinUrl(window.blocklet.prefix, '/api/uploads');
+
 const uploader = new Uppload({
   lang: en,
   defaultService: 'local',
   maxWidth: 1440,
   maxHeight: 900,
   uploader: xhrUploader({
-    endpoint: `${window.location.origin}/api/uploads`,
+    endpoint: obj.href,
     fileKeyName: 'image',
   }),
 });

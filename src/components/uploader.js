@@ -20,8 +20,11 @@ import {
 import 'uppload/dist/uppload.css';
 import 'uppload/dist/themes/light.css';
 
-const obj = new URL(window.location.origin);
-obj.pathname = joinUrl(window.blocklet.prefix, '/api/uploads');
+const getEndpoint = () => {
+  const obj = new URL(window.location.origin);
+  obj.pathname = joinUrl(window.blocklet.prefix, '/api/uploads');
+  return obj.href;
+};
 
 const uploader = new Uppload({
   lang: en,
@@ -29,7 +32,7 @@ const uploader = new Uppload({
   maxWidth: 1440,
   maxHeight: 900,
   uploader: xhrUploader({
-    endpoint: obj.href,
+    endpoint: getEndpoint(),
     fileKeyName: 'image',
   }),
 });

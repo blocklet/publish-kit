@@ -1,3 +1,7 @@
+## 0.1.7 (April 25, 2022)
+
+- fix: upload crash when used as child
+
 ## 0.1.6 (April 18, 2022)
 
 - chore: publish to test store

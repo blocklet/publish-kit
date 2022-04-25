@@ -1,5 +1,5 @@
 name: publish-kit
-version: 0.1.6
+version: 0.1.7
 title: Publish Kit
 description: One content publish engine to rule them all
 keywords:
@@ -13,7 +13,7 @@ author:
   email: wangshijun2010@gmail.com
 repository:
   type: git
-  url: 'git+https://github.com/blocklet/publish-kit.git'
+  url: git+https://github.com/blocklet/publish-kit.git
 specVersion: 1.2.4
 logo: logo.png
 files:

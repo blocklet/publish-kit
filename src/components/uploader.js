@@ -21,7 +21,7 @@ import 'uppload/dist/uppload.css';
 import 'uppload/dist/themes/light.css';
 
 const getEndpoint = () => {
-  const obj = new URL(window.location.origin);
+  const obj = new window.URL(window.location.origin);
   obj.pathname = joinUrl(window.blocklet.prefix, '/api/uploads');
   return obj.href;
 };

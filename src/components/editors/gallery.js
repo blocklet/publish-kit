@@ -126,7 +126,7 @@ const Div = styled.div`
         left: 0;
         background-size: 50%;
         background-repeat: no-repeat;
-        background-image: url(/images/splash.png);
+        background-image: url(./images/splash.png);
         background-position: center;
         opacity: 0.3;
       }

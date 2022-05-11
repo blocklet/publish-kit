@@ -1,3 +1,7 @@
+## 0.1.10 (May 12, 2022)
+
+- chore(deps): bump ux and blocklet sdk to latest
+
 ## 0.1.9 (April 26, 2022)
 
 - fix: upload crash when used as child: finally

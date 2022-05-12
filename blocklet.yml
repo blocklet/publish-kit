@@ -1,5 +1,5 @@
 name: publish-kit
-version: 0.1.10
+version: 0.2.0
 title: Publish Kit
 description: One content publish engine to rule them all
 keywords:
@@ -48,9 +48,11 @@ scripts:
   dev: npm run start
 environments:
   - name: CONTENT_TYPES
-    description: Content types you want to publish, use comma to for multiple types, supported types are status,gallery,blog
+    description: >-
+      Content types you want to publish, use comma to for multiple types,
+      supported types are status,gallery,blog
     required: true
-    default: 'status,gallery,blog'
+    default: status,gallery,blog
     secure: false
     shared: true
 capabilities:

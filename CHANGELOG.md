@@ -1,3 +1,10 @@
+## 0.2.0 (May 12, 2022)
+
+- fix: content-type config change caused crash
+- feat: use header from blocklet-ui-react
+- feat: support enabled content types
+- chore(refactor): make uploadDir a const
+
 ## 0.1.10 (May 12, 2022)
 
 - chore(deps): bump ux and blocklet sdk to latest

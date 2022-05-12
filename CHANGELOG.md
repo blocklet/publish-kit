@@ -1,3 +1,7 @@
+## 0.2.1 (May 12, 2022)
+
+- chore: add navigation field in blocklet.yml
+
 ## 0.2.0 (May 12, 2022)
 
 - fix: content-type config change caused crash

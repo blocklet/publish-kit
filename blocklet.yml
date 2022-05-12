@@ -1,5 +1,5 @@
 name: publish-kit
-version: 0.2.0
+version: 0.2.1
 title: Publish Kit
 description: One content publish engine to rule them all
 keywords:
@@ -67,4 +67,3 @@ screenshots:
   - gallery-card.png
 children: []
 navigation: []
-

@@ -3,7 +3,7 @@ const xss = require('xss');
 const express = require('express');
 const middleware = require('@blocklet/sdk/lib/middlewares');
 
-// const env = require('../libs/env');
+const { isTypeEnabled } = require('../libs/util');
 const logger = require('../libs/logger');
 const Post = require('../states/post');
 
@@ -65,6 +65,10 @@ router.post('/posts', user, auth, async (req, res) => {
       body[key] = xss(body[key]);
     }
   });
+
+  if (isTypeEnabled(type) === false) {
+    return res.status(400).json({ error: `content type ${type} is not enabled` });
+  }
 
   const post = {
     type,

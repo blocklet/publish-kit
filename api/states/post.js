@@ -40,10 +40,8 @@ class Post extends Database {
 
   TYPE = {
     STATUS: 'status',
-    THREAD: 'thread',
     GALLERY: 'gallery',
     BLOG: 'blog',
-    POLL: 'poll',
   };
 
   PERMISSIONS = {

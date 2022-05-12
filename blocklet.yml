@@ -46,7 +46,13 @@ requirements:
 scripts:
   preStart: node api/hooks/pre-start.js
   dev: npm run start
-environments: []
+environments:
+  - name: CONTENT_TYPES
+    description: Content types you want to publish, use comma to for multiple types, supported types are status,gallery,blog
+    required: true
+    default: 'status,gallery,blog'
+    secure: false
+    shared: true
 capabilities:
   clusterMode: false
   component: true

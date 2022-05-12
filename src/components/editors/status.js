@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import slugify from 'slugify';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
@@ -6,8 +7,9 @@ import useLocalStorage from 'react-use/lib/useLocalStorage';
 import { usePostContext } from '../../contexts/post';
 
 export default function StatusEditor({ onChange }) {
+  const suffix = slugify(window.blocklet.prefix); // use prefix here to avoid conflict
   const { events } = usePostContext();
-  const [content, setContent] = useLocalStorage('draft.status.content', '');
+  const [content, setContent] = useLocalStorage(`draft.status.content.${suffix}`, '');
 
   useEffect(() => {
     onChange('content', content);

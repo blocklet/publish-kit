@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
+import slugify from 'slugify';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
@@ -15,9 +16,10 @@ import uploader from '../uploader';
 const MAX_GALLERY_SIZE = 3;
 
 export default function GalleryEditor({ onChange }) {
+  const suffix = slugify(window.blocklet.prefix); // use prefix here to avoid conflict
   const { events } = usePostContext();
-  const [images, setImages] = useLocalStorage('draft.gallery.images', []);
-  const [description, setDescription] = useLocalStorage('draft.gallery.description', '');
+  const [images, setImages] = useLocalStorage(`draft.gallery.images.${suffix}`, []);
+  const [description, setDescription] = useLocalStorage(`draft.gallery.description.${suffix}`, '');
 
   useEffect(() => {
     onChange('images', images);

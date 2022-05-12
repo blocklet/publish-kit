@@ -60,7 +60,7 @@ export default function ContentEditor() {
     { name: 'gallery', Editor: GalleryEditor, Icon: IconGallery },
   ].filter((x) => ENABLED_CONTENT_TYPES.includes(x.name));
 
-  const { Editor } = editors.find((x) => x.name === type);
+  const { Editor } = editors.find((x) => x.name === type) || editors.find((x) => x.name === ENABLED_CONTENT_TYPES[0]);
 
   const handlePublish = async () => {
     const canPublish = Editor.canPublish(body.current);

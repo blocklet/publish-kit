@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import get from 'lodash/get';
+import slugify from 'slugify';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
@@ -9,7 +10,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconStatus from '@material-ui/icons/Twitter';
 import IconPost from '@material-ui/icons/SubjectOutlined';
 import IconGallery from '@material-ui/icons/InsertPhotoOutlined';
-import IconPoll from '@material-ui/icons/PollOutlined';
 import Button from '@arcblock/ux/lib/Button';
 import Spinner from '@arcblock/ux/lib/Spinner';
 
@@ -23,20 +23,27 @@ import { useSessionContext } from '../../contexts/session';
 
 import api from '../../libs/api';
 
-const Editors = {
-  status: StatusEditor,
-  blog: BlogEditor,
-  gallery: GalleryEditor,
-};
+const SUPPORTED_CONTENT_TYPES = ['status', 'gallery', 'blog'];
+const ENABLED_CONTENT_TYPES = window.blocklet.CONTENT_TYPES.split(',')
+  .map((x) => x.trim())
+  .filter((x) => SUPPORTED_CONTENT_TYPES.includes(x));
 
-export default function Editor() {
+export default function ContentEditor() {
+  const suffix = slugify(window.blocklet.prefix); // use prefix here to avoid conflict
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [type, setType] = useLocalStorage('post-type', 'status');
-  const [permission, setPermission] = useLocalStorage(`post-permission-${type}`, 'public');
+  const [type, setType] = useLocalStorage(`post-type-${suffix}`, ENABLED_CONTENT_TYPES[0]);
+  const [permission, setPermission] = useLocalStorage(`post-permission-${suffix}-${type}`, 'public');
   const { prependPost } = usePostContext();
   const { session } = useSessionContext();
   const body = useRef({});
+
+  // fallback to first if we changed enabled types
+  useEffect(() => {
+    if (ENABLED_CONTENT_TYPES.includes(type) === false) {
+      setType(ENABLED_CONTENT_TYPES[0]);
+    }
+  }, []);
 
   const createTypeHandler = (t) => () => {
     if (t !== type) {
@@ -47,10 +54,16 @@ export default function Editor() {
   const getBtnDisabled = (t) => type === t;
   const getBtnClass = (t) => (type === t ? 'editor-button editor-button-active' : 'editor-button');
 
-  const EditorComponent = Editors[type];
+  const editors = [
+    { name: 'status', Editor: StatusEditor, Icon: IconStatus },
+    { name: 'blog', Editor: BlogEditor, Icon: IconPost },
+    { name: 'gallery', Editor: GalleryEditor, Icon: IconGallery },
+  ].filter((x) => ENABLED_CONTENT_TYPES.includes(x.name));
+
+  const { Editor } = editors.find((x) => x.name === type);
 
   const handlePublish = async () => {
-    const canPublish = Editors[type].canPublish(body.current);
+    const canPublish = Editor.canPublish(body.current);
     if (typeof canPublish === 'string') {
       setError(canPublish);
       setTimeout(() => setError(''), 3000);
@@ -80,53 +93,25 @@ export default function Editor() {
   return (
     <Div>
       <div className="editor-wrapper">
-        <EditorComponent onChange={handleEditorChange} />
+        <Editor onChange={handleEditorChange} />
       </div>
       <div className="editor-control">
         <div className="editor-icons">
-          <Tooltip title="Post a status">
-            <span>
-              <IconButton
-                onClick={createTypeHandler('status')}
-                className={getBtnClass('status')}
-                size="small"
-                disabled={getBtnDisabled('status')}
-                disableRipple>
-                <IconStatus className="editor-icon editor-icon-status" />
-              </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Post a blog">
-            <span>
-              <IconButton
-                onClick={createTypeHandler('blog')}
-                className={getBtnClass('blog')}
-                size="small"
-                disabled={getBtnDisabled('blog')}
-                disableRipple>
-                <IconPost className="editor-icon editor-icon-blog" />
-              </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Post image and photos">
-            <span>
-              <IconButton
-                onClick={createTypeHandler('gallery')}
-                className={getBtnClass('gallery')}
-                size="small"
-                disabled={getBtnDisabled('gallery')}
-                disableRipple>
-                <IconGallery className="editor-icon editor-icon-gallery" />
-              </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Coming soon">
-            <span>
-              <IconButton className={getBtnClass('poll')} size="small" disabled disableRipple>
-                <IconPoll className="editor-icon editor-icon-poll" />
-              </IconButton>
-            </span>
-          </Tooltip>
+          {editors.length > 1 &&
+            editors.map(({ name, Icon }) => (
+              <Tooltip title={`Post a ${name}`} key={name}>
+                <span>
+                  <IconButton
+                    onClick={createTypeHandler(name)}
+                    className={getBtnClass(name)}
+                    size="small"
+                    disabled={getBtnDisabled(name)}
+                    disableRipple>
+                    <Icon className={`editor-icon editor-icon-${name}`} />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            ))}
         </div>
         {!!error && <div className="editor-error">{error}</div>}
         <div className="publish-control">
@@ -147,9 +132,9 @@ export default function Editor() {
   );
 }
 
-Editor.propTypes = {};
+ContentEditor.propTypes = {};
 
-Editor.defaultProps = {};
+ContentEditor.defaultProps = {};
 
 const Div = styled.div`
   margin-bottom: 16px;

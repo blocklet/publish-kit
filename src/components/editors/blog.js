@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
+import slugify from 'slugify';
 import PropTypes from 'prop-types';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 import styled from 'styled-components';
@@ -11,10 +12,11 @@ import { usePostContext } from '../../contexts/post';
 const DEFAULT_CONTENT = "**What's happening?**";
 
 export default function BlogEditor({ onChange }) {
+  const suffix = slugify(window.blocklet.prefix); // use prefix here to avoid conflict
   const { events } = usePostContext();
-  const [height, setHeight] = useLocalStorage('post-height', 264);
-  const [content, setContent] = useLocalStorage('draft.blog.content', DEFAULT_CONTENT);
-  const [title, setTitle] = useLocalStorage('draft.blog.title', '');
+  const [height, setHeight] = useLocalStorage(`post-height-${suffix}`, 264);
+  const [content, setContent] = useLocalStorage(`draft.blog.content.${suffix}`, DEFAULT_CONTENT);
+  const [title, setTitle] = useLocalStorage(`draft.blog.title.${suffix}`, '');
 
   useEffect(() => {
     onChange('content', content);

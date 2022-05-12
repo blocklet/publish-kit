@@ -1449,6 +1449,18 @@
     lru-cache "^6.0.0"
     url-join "^4.0.1"
 
+"@blocklet/ui-react@^1.17.18":
+  version "1.17.18"
+  resolved "https://registry.yarnpkg.com/@blocklet/ui-react/-/ui-react-1.17.18.tgz#53edff1ce0cbc0008054779c53fa4925c19d7c1e"
+  integrity sha512-cX14vK8ASYwkIPKK9DY0iNHGZnBC3EUnFpxx9ldnVQtPnxPs1zIrQLEjYcEhA2tE0yE1hsNcCIU3a9eX0aor6g==
+  dependencies:
+    "@arcblock/did-connect" "^1.17.18"
+    "@arcblock/ux" "^1.17.18"
+    "@iconify/iconify" "^2.2.1"
+    "@material-ui/core" "^4.12.3"
+    core-js "^3.6.4"
+    styled-components "^5.0.0"
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
@@ -1652,6 +1664,11 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
+
+"@iconify/iconify@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@iconify/iconify/-/iconify-2.2.1.tgz#03ad4d8554c6f2d7741d3b9440115efa0c707b37"
+  integrity sha512-WJzw+3iicrF/tbjbxxRinSgy5FHdJoz/egTqwi3xCDkNRJPq482RX1iyaWrjNuY2vMNSPkQMuqHvZDXgA+WnwQ==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -12106,7 +12123,7 @@ slice-ansi@^5.0.0:
     ansi-styles "^6.0.0"
     is-fullwidth-code-point "^4.0.0"
 
-slugify@^1.4.6:
+slugify@^1.4.6, slugify@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.5.tgz#c8f5c072bf2135b80703589b39a3d41451fbe8c8"
   integrity sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==

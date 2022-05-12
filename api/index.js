@@ -10,11 +10,11 @@ const cookieParser = require('cookie-parser');
 const fallback = require('express-history-api-fallback');
 
 const { name, version } = require('../package.json');
+const { UPLOAD_DIR } = require('./libs/const');
 const logger = require('./libs/logger');
-const env = require('./libs/env');
 
-if (fs.existsSync(env.uploadDir) === false) {
-  fs.mkdirSync(env.uploadDir, { recursive: true });
+if (fs.existsSync(UPLOAD_DIR) === false) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: '1 mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1 mb' }));
 
-app.use('/uploads', express.static(env.uploadDir, { maxAge: '365d' }));
+app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '365d' }));
 
 const router = express.Router();
 router.use('/api', require('./routes/posts'));

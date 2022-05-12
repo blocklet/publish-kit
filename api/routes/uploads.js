@@ -5,8 +5,9 @@ const pick = require('lodash/pick');
 const middleware = require('@blocklet/sdk/lib/middlewares');
 const mime = require('mime-types');
 
-const env = require('../libs/env');
 const { nanoid } = require('../libs/util');
+const { UPLOAD_DIR } = require('../libs/const');
+const env = require('../libs/env');
 const Upload = require('../states/upload');
 
 const router = express.Router();
@@ -14,7 +15,7 @@ const auth = middleware.auth({ roles: ['owner', 'admin'] });
 const user = middleware.user();
 const upload = multer({
   storage: multer.diskStorage({
-    destination: env.uploadDir,
+    destination: UPLOAD_DIR,
     filename: (req, file, cb) => {
       cb(null, `${Date.now()}-${nanoid()}.${mime.extension(file.mimetype)}`);
     },

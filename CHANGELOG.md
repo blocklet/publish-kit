@@ -1,3 +1,7 @@
+## 0.3.0 (May 13, 2022)
+
+- chore: chore: upgrade to react v18 and mui v5
+
 ## 0.2.1 (May 12, 2022)
 
 - chore: add navigation field in blocklet.yml

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
-import IconPrivate from '@material-ui/icons/LockOutlined';
-import IconPublic from '@material-ui/icons/PublicOutlined';
-import IconPaid from '@material-ui/icons/MonetizationOnOutlined';
-import IconMember from '@material-ui/icons/VerifiedUserOutlined';
+import IconPrivate from '@mui/icons-material/LockOutlined';
+import IconPublic from '@mui/icons-material/PublicOutlined';
+import IconPaid from '@mui/icons-material/MonetizationOnOutlined';
+import IconMember from '@mui/icons-material/VerifiedUserOutlined';
 
 import Button from '@arcblock/ux/lib/Button';
 

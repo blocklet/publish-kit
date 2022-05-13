@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
-import IconButton from '@material-ui/core/IconButton';
-import IconDelete from '@material-ui/icons/CloseOutlined';
-import IconAdd from '@material-ui/icons/Add';
+import IconButton from '@mui/material/IconButton';
+import IconDelete from '@mui/icons-material/CloseOutlined';
+import IconAdd from '@mui/icons-material/Add';
 
 import { usePostContext } from '../../contexts/post';
 

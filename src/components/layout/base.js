@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Header from '@blocklet/ui-react/lib/Header';
 
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 export default function Layout({ title, brand, links, logo, addons, baseUrl, homeUrl, children, variant, ...rest }) {
   let activeLink = '';

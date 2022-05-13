@@ -1,7 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ThemeProvider, StyledEngineProvider, CssBaseline } from '@mui/material';
+import { ThemeProvider as StyledThemeProvider, createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import theme from './libs/theme';
@@ -27,22 +27,24 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
+    <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <SessionProvider serviceHost={get(window, 'blocklet.prefix', '/')}>
-          <CssBaseline />
-          <GlobalStyle />
-          <Layout>
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </Layout>
-        </SessionProvider>
+        <StyledThemeProvider theme={theme}>
+          <SessionProvider serviceHost={get(window, 'blocklet.prefix', '/')}>
+            <CssBaseline />
+            <GlobalStyle />
+            <Layout>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/post/:id" element={<PostDetail />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Layout>
+          </SessionProvider>
+        </StyledThemeProvider>
       </ThemeProvider>
-    </MuiThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

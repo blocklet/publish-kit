@@ -5,11 +5,11 @@ import slugify from 'slugify';
 import styled from 'styled-components';
 import useLocalStorage from 'react-use/lib/useLocalStorage';
 
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconStatus from '@material-ui/icons/Twitter';
-import IconPost from '@material-ui/icons/SubjectOutlined';
-import IconGallery from '@material-ui/icons/InsertPhotoOutlined';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import IconStatus from '@mui/icons-material/Twitter';
+import IconPost from '@mui/icons-material/SubjectOutlined';
+import IconGallery from '@mui/icons-material/InsertPhotoOutlined';
 import Button from '@arcblock/ux/lib/Button';
 import Spinner from '@arcblock/ux/lib/Spinner';
 

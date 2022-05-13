@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import IconLink from '@material-ui/icons/LinkOutlined';
-import Typography from '@material-ui/core/Typography';
+import IconLink from '@mui/icons-material/LinkOutlined';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 import PostCard from '../base';

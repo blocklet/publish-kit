@@ -7,8 +7,8 @@ import { format } from 'timeago.js';
 import DidAvatar from '@arcblock/did-connect/lib/Avatar';
 import Spinner from '@arcblock/ux/lib/Spinner';
 import Alert from '@arcblock/ux/lib/Alert';
-import Typography from '@material-ui/core/Typography';
-import IconInfo from '@material-ui/icons/InfoOutlined';
+import Typography from '@mui/material/Typography';
+import IconInfo from '@mui/icons-material/InfoOutlined';
 
 import Markdown from '../../components/markdown';
 

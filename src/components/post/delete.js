@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import IconDelete from '@material-ui/icons/DeleteOutlineOutlined';
+import IconDelete from '@mui/icons-material/DeleteOutlineOutlined';
 import ConfirmDialog from '@arcblock/ux/lib/Dialog/confirm';
 
 import { useSessionContext } from '../../contexts/session';

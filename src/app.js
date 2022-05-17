@@ -23,6 +23,9 @@ const GlobalStyle = createGlobalStyle`
   a:hover * {
     text-decoration: none !important;
   }
+  .ReactModal__Overlay--after-open {
+    z-index: 2000 !important;
+  }
 `;
 
 function App() {

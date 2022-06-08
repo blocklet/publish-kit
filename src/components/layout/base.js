@@ -16,9 +16,7 @@ export default function Layout({ title, brand, links, logo, addons, baseUrl, hom
 
   return (
     <Div {...rest}>
-      <Container maxWidth="md">
-        <Header />
-      </Container>
+      <Header className="layout-header" />
       <Container maxWidth="md" style={{ marginTop: 8, flex: 1 }}>
         {children}
       </Container>
@@ -51,4 +49,8 @@ const Div = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  .layout-header .MuiContainer-root {
+    max-width: ${(props) => props.theme.breakpoints.values.md}px;
+  }
 `;

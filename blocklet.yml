@@ -19,10 +19,9 @@ logo: logo.png
 files:
   - build
   - logo.png
-  - README.md
-  - blocklet.md
   - screenshots
   - api/hooks/pre-start.js
+  - api/hooks/pre-config.js
 interfaces:
   - type: web
     name: publicUrl
@@ -45,6 +44,7 @@ requirements:
   cpu: '*'
 scripts:
   preStart: node api/hooks/pre-start.js
+  preConfig: node api/hooks/pre-config.js
   dev: npm run start
 environments:
   - name: CONTENT_TYPES

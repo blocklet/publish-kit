@@ -1,6 +1,6 @@
 {
   "name": "publish-kit",
-  "version": "0.3.1",
+  "version": "..2",
   "scripts": {
     "dev": "craco start",
     "build": "craco build",

@@ -1,3 +1,7 @@
+## 0.3.2 (June 21, 2022)
+
+- fix(permission): owner and admin can post message
+
 ## 0.3.1 (May 17, 2022)
 
 - fix(ui): image lightbox and header overlap issue

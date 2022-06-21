@@ -10,12 +10,11 @@ import { useSessionContext } from '../contexts/session';
 
 const Home = () => {
   const { session } = useSessionContext();
-  window.console.log(session.user.role);
 
   return (
     <Div>
       <PostProvider pageSize={10}>
-        {session.user.role !== 'guest' && session.user.role !== 'other' && <Editor />}
+        {(session.user.role === 'owner' || session.user.role === 'admin') && <Editor />}
         <Feeds />
       </PostProvider>
     </Div>

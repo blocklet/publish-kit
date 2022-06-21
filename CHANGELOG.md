@@ -1,6 +1,14 @@
-## 0.3.2 (June 21, 2022)
+## 0.3.4 (六月 21, 2022)
 
 - fix(permission): owner and admin can post message
+
+## 0.3.3 (June 10, 2022)
+
+- chore: add pre-config script
+
+## 0.3.2 (June 02, 2022)
+
+- chore: update blocklet-ui and adjust layout
 
 ## 0.3.1 (May 17, 2022)
 

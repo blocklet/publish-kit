@@ -6,12 +6,15 @@ import Editor from '../components/editors';
 import Feeds from '../components/feeds';
 
 import { PostProvider } from '../contexts/post';
+import { useSessionContext } from '../contexts/session';
 
 const Home = () => {
+  const { session } = useSessionContext();
+
   return (
     <Div>
       <PostProvider pageSize={10}>
-        <Editor />
+        {(session.user.role === 'owner' || session.user.role === 'admin') && <Editor />}
         <Feeds />
       </PostProvider>
     </Div>

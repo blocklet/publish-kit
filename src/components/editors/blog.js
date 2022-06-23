@@ -6,6 +6,8 @@ import useLocalStorage from 'react-use/lib/useLocalStorage';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
+import MDPreview from '@uiw/react-markdown-preview';
+import trimHtml from 'trim-html';
 
 import { usePostContext } from '../../contexts/post';
 
@@ -16,11 +18,21 @@ export default function BlogEditor({ onChange }) {
   const { events } = usePostContext();
   const [height, setHeight] = useLocalStorage(`post-height-${suffix}`, 264);
   const [content, setContent] = useLocalStorage(`draft.blog.content.${suffix}`, DEFAULT_CONTENT);
+  // const [excerpt, setExcerpt] = useLocalStorage(`draft.blog.excerpt.${suffix}`, '');
   const [title, setTitle] = useLocalStorage(`draft.blog.title.${suffix}`, '');
 
   useEffect(() => {
     onChange('content', content);
     onChange('title', title);
+    onChange(
+      'excerpt',
+      trimHtml(document.getElementById('blog-preview').innerHTML, {
+        limit: 100,
+        wordBreak: false,
+        preserveTags: false,
+        suffix: '...',
+      }).html
+    );
   }, [content, title]);
 
   events.on('post.published', (post) => {
@@ -50,6 +62,9 @@ export default function BlogEditor({ onChange }) {
       </div>
       <div className="blog-footer">
         <input type="text" placeholder="Summary the blog with a few words" value={title} onChange={handleTitle} />
+      </div>
+      <div style={{ display: 'none' }} id="blog-preview">
+        <MDPreview source={content} />
       </div>
     </Div>
   );

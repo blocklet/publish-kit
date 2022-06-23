@@ -1,3 +1,7 @@
+## 0.3.5 (六月 23, 2022)
+
+- feature: generate and show excerpt
+
 ## 0.3.4 (六月 21, 2022)
 
 - fix(permission): owner and admin can post message

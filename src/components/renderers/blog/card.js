@@ -11,6 +11,7 @@ export default function BlogCard({ post }) {
   return (
     <Div>
       <PostCard post={post}>
+        <div className="post-excerpt">{post.body.excerpt}</div>
         <Link to={`/post/${post._id}`} className="post-link">
           <div className="post-cover">
             <IconLink fontSize="medium" style={{ color: '#999' }} />

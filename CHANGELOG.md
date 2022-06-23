@@ -1,3 +1,7 @@
+## 0.3.4 (六月 21, 2022)
+
+- fix(permission): owner and admin can post message
+
 ## 0.3.3 (June 10, 2022)
 
 - chore: add pre-config script
